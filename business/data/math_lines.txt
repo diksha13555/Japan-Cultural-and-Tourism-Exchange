@@ -1,0 +1,17 @@
+TAM = food ¥2.07T + entertainment/services ¥421.8B = ¥2.49T  (incl. transport: ¥3.44T)
+Experience share of spend = 26.4%
+  South Korea: ¥986.4B x 26.4% x 70% digital = ¥182.0B
+  China: ¥2.00T x 26.4% x 70% digital = ¥369.6B
+  India: ¥72.1B [A1 assumed per-person] x 26.4% x 70% digital = ¥13.3B
+SAM = ¥564.9B   (China -50% stress case: ¥380.1B)
+SOM users = 18,871,000 KR+CN+IN visitors x 1% = 188,710 trip-users
+SOM GMV = 188,710 x 30% book x ¥15,000 = ¥849.2M  (0.15% of SAM)
+SOM revenue (all streams) = ¥142.5M  (≈ US$0.95M)
+   Booking commission: ¥101.9M (71%)
+   Partner subscriptions & featured: ¥18.0M (13%)
+   Ads & affiliate: ¥9.4M (7%)
+   Trip Pass: ¥7.5M (5%)
+   Guide & meetup fees: ¥5.7M (4%)
+ARPU/trip = ¥660 · CAC = ¥330 · LTV = ¥845 · LTV/CAC = 2.6x
+Blended take rate = 16.8% of GMV · first-trip contribution = ¥198
+Break-even = (¥90.0M fixed - ¥14.4M partner GP) / ¥198 = 381,818 trip-users/yr

@@ -1,0 +1,245 @@
+{
+ "duration": 64.912,
+ "credit": "Music: “Ishikari Lore” & “Kawai Kitsune” by Kevin MacLeod (incompetech.com) · CC BY 4.0",
+ "scenes": [
+  {
+   "id": "station",
+   "panel": 1,
+   "min": 7.0,
+   "colour": [
+    0,
+    0
+   ],
+   "cam": "zoom-in",
+   "origin": "38% 45%",
+   "start": 0.0,
+   "end": 9.19
+  },
+  {
+   "id": "signs",
+   "panel": 2,
+   "min": 6.0,
+   "colour": [
+    0,
+    0
+   ],
+   "cam": "zoom-in",
+   "origin": "40% 30%",
+   "start": 9.19,
+   "end": 15.19
+  },
+  {
+   "id": "delay",
+   "panel": 3,
+   "min": 6.0,
+   "colour": [
+    0,
+    0
+   ],
+   "cam": "pan-left",
+   "start": 15.19,
+   "end": 21.406
+  },
+  {
+   "id": "app",
+   "panel": 4,
+   "min": 6.0,
+   "colour": [
+    0,
+    0.22
+   ],
+   "cam": "zoom-in",
+   "origin": "35% 42%",
+   "reveal": [
+    35,
+    42
+   ],
+   "caption": "As the worry fades, Japan fills with colour.",
+   "start": 21.406,
+   "end": 27.406
+  },
+  {
+   "id": "language",
+   "panel": 5,
+   "min": 7.0,
+   "colour": [
+    0.22,
+    0.5
+   ],
+   "cam": "pan-right",
+   "start": 27.406,
+   "end": 35.608
+  },
+  {
+   "id": "route",
+   "panel": 6,
+   "min": 7.0,
+   "colour": [
+    0.5,
+    0.78
+   ],
+   "cam": "zoom-in",
+   "origin": "70% 55%",
+   "start": 35.608,
+   "end": 43.365
+  },
+  {
+   "id": "festival",
+   "panel": 7,
+   "min": 10.0,
+   "colour": [
+    0.78,
+    1
+   ],
+   "cam": "zoom-out",
+   "origin": "50% 45%",
+   "petals": 1,
+   "start": 43.365,
+   "end": 58.412
+  },
+  {
+   "id": "title",
+   "panel": 0,
+   "min": 6.5,
+   "colour": [
+    1,
+    1
+   ],
+   "petals": 1,
+   "start": 58.412,
+   "end": 64.912
+  }
+ ],
+ "lines": [
+  {
+   "who": "pa_f",
+   "at": 1.3,
+   "text": "まもなく、二番線に、電車がまいります。黄色い線まで、お下がりください。",
+   "fx": "pa",
+   "key": "station_0",
+   "start": 1.3,
+   "end": 7.89
+  },
+  {
+   "who": "girl",
+   "at": 3.0,
+   "text": "So many people... Where do I go?",
+   "bubble": true,
+   "emotion": "overwhelmed and small, almost whispering, a nervous breath before speaking",
+   "key": "station_1",
+   "start": 3.0,
+   "end": 6.05
+  },
+  {
+   "who": "pa_m",
+   "at": 0.0,
+   "text": "新幹線のりばは、二階でございます。",
+   "fx": "pa",
+   "key": "signs_0",
+   "start": 9.19,
+   "end": 11.95
+  },
+  {
+   "who": "girl",
+   "at": 1.6,
+   "text": "I can't understand anything...",
+   "bubble": true,
+   "emotion": "lost and quietly defeated, trailing off",
+   "key": "signs_1",
+   "start": 10.79,
+   "end": 12.76
+  },
+  {
+   "who": "girl",
+   "at": 1.0,
+   "text": "Oh, and my train departed already?!",
+   "bubble": true,
+   "emotion": "sudden shock, voice jumping upward, anime-style panic",
+   "key": "delay_0",
+   "start": 16.19,
+   "end": 18.679
+  },
+  {
+   "who": "girl",
+   "at": 0,
+   "after": 0.35,
+   "text": "What do I do now?",
+   "emotion": "small and helpless, close to tears",
+   "key": "delay_1",
+   "start": 19.029,
+   "end": 20.106
+  },
+  {
+   "who": "girl",
+   "at": 1.2,
+   "text": "Wait... this could help!",
+   "bubble": true,
+   "emotion": "a hopeful gasp, then brightening with curiosity",
+   "key": "app_0",
+   "start": 22.606,
+   "end": 24.081
+  },
+  {
+   "who": "girl",
+   "at": 0.6,
+   "text": "My language! Finally.",
+   "bubble": true,
+   "emotion": "delighted relief, a happy little laugh in the voice",
+   "key": "language_0",
+   "start": 28.006,
+   "end": 30.696
+  },
+  {
+   "who": "app",
+   "at": 0,
+   "after": 0.45,
+   "text": "Welcome to Japan. Let's find your way.",
+   "fx": "earbud",
+   "emotion": "warm and reassuring",
+   "key": "language_1",
+   "start": 31.146,
+   "end": 34.308
+  },
+  {
+   "who": "app",
+   "at": 0.4,
+   "text": "Your route is ready. Platform fourteen, in five minutes.",
+   "fx": "earbud",
+   "emotion": "calm and clear",
+   "key": "route_0",
+   "start": 36.008,
+   "end": 40.51
+  },
+  {
+   "who": "girl",
+   "at": 0,
+   "after": 0.4,
+   "text": "I've got this!",
+   "bubble": true,
+   "emotion": "confident and playful, a big smile you can hear",
+   "key": "route_1",
+   "start": 40.91,
+   "end": 42.065
+  },
+  {
+   "who": "girl",
+   "at": 0.8,
+   "text": "Sugoi... Lanterns, sakura, takoyaki... This is the Japan I dreamed of!",
+   "emotion": "joyful wonder, breathless and sparkling, like the end of an anime episode",
+   "key": "festival_0",
+   "start": 44.165,
+   "end": 51.769
+  },
+  {
+   "who": "girl",
+   "at": 0.0,
+   "after": 0.6,
+   "text": "Trip DNA! Less worry. More culture!",
+   "tagline": true,
+   "emotion": "bright and proud, smiling, looking straight at the audience",
+   "key": "festival_1",
+   "start": 52.369,
+   "end": 57.112
+  }
+ ]
+}

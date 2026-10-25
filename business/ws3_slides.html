@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Trip DNA Business Slides</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@500;700&display=swap" rel="stylesheet">
+<!--
+  WS3 slides for the Trip DNA deck. Each <section class="sec"> drops straight into index.html
+  (same classes as index_checkpoint1.html). Copy the "WS3 additions" CSS block and the WS3 <script> too.
+  Numbers come from model.py -> data/*.json; sources are tagged [S#]/[C#]/[B#] (research.md), assumptions [A#].
+-->
+<style>
+:root{--c:#D9123D;--cr:#F2ECDD;--ink:#231815;--sak:#f4a6b8;--gold:#E8B33E;--pbg:#F2ECDD;--pfg:#231815}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--pbg:#231815;--pfg:#F2ECDD}}
+:root[data-theme=dark]{--pbg:#231815;--pfg:#F2ECDD}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--pbg);color:var(--pfg);overflow-x:hidden;font:16px/1.6 'DM Sans',sans-serif}
+.h{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.03em;line-height:.95;margin:0 0 .5em;overflow-wrap:anywhere}
+h2.h{font-size:clamp(2rem,5.5vw,3.8rem)}h3.h{font-size:clamp(1.1rem,2.6vw,1.5rem);letter-spacing:-.01em;line-height:1.1}
+p{margin:0 0 1em}
+.lead{font-size:clamp(1.05rem,2.2vw,1.3rem);max-width:62ch}
+small,.small{font-size:.85rem;opacity:.85}
+.sec{position:relative;padding:96px 56px 80px;min-height:100vh;overflow:hidden;background:var(--bg);color:var(--fg);display:flex;flex-direction:column;justify-content:center}
+.sec.red{--bg:#D9123D;--fg:#F2ECDD;--line:#F2ECDD;--alt:#231815}
+.sec.cream{--bg:#F2ECDD;--fg:#231815;--line:#D9123D;--alt:#D9123D}
+.sec.ink{--bg:#231815;--fg:#F2ECDD;--line:#D9123D;--alt:#D9123D}
+.in{max-width:1060px;margin:0 auto;width:100%;position:relative;z-index:2}
+.vl{position:absolute;top:50%;transform:translateY(-50%);writing-mode:vertical-rl;font-size:12px;font-weight:700;letter-spacing:.2em;white-space:nowrap;text-transform:uppercase;opacity:.8}
+.kick{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border:1px solid currentColor;padding:2px 10px;margin-bottom:18px}
+.kick b{color:var(--alt)}
+.sec.red .kick b{color:var(--ink)}
+.fr{position:relative;border:1px solid var(--line);padding:18px;min-width:0}
+.fr .n{position:absolute;width:14px;height:14px}
+.n.tl{top:-1px;left:-1px;background:linear-gradient(135deg,var(--bg) 0 48%,var(--line) 48% 54%,transparent 54%)}
+.n.tr{top:-1px;right:-1px;background:linear-gradient(225deg,var(--bg) 0 48%,var(--line) 48% 54%,transparent 54%)}
+.n.br{bottom:-1px;right:-1px;background:linear-gradient(315deg,var(--bg) 0 48%,var(--line) 48% 54%,transparent 54%)}
+.n.bl{bottom:-1px;left:-1px;background:linear-gradient(45deg,var(--bg) 0 48%,var(--line) 48% 54%,transparent 54%)}
+.fr.fill{background:var(--fg);color:var(--bg)}
+.fr.fill .n{display:none}
+.fr p:last-child,.fr ul:last-child{margin-bottom:0}
+.fr ul{margin:0;padding-left:1.1em}.fr li{margin:.2em 0}
+.grid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.big{font-family:'Archivo Black';font-size:clamp(2.4rem,6vw,3.6rem);line-height:1;color:var(--alt)}
+.sec.red .big{color:var(--cr)}
+.rv{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s;transition-delay:var(--d,0s)}
+.rv.vis{opacity:1;transform:none}
+.bmc{display:grid;gap:8px;grid-template-columns:repeat(5,minmax(0,1fr));grid-template-areas:"kp ka vp cr cs" "kp kr vp ch cs" "co co rs rs rs"}
+.bmc .fr{padding:12px;font-size:13px}
+.bmc h4{margin:0 0 6px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c)}
+.bmc ul{padding-left:1em}
+.tw{overflow-x:auto;border:1px solid var(--line);margin-top:8px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+th,td{padding:8px 10px;border-bottom:1px solid rgba(242,236,221,.35);text-align:center}
+th:first-child,td:first-child{text-align:left}
+thead th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+td.us,th.us{background:var(--cr);color:var(--c);font-weight:700}
+tbody tr:last-child td{border-bottom:0}
+.dim{opacity:.45}
+
+/* ===== WS3 additions ===== */
+.sec.cream{--s1:#D9123D;--s2:#2F6FB0;--grid:rgba(35,24,21,.14);--mut:rgba(35,24,21,.62)}
+.sec.ink{--s1:#E8506F;--s2:#4A8AD0;--grid:rgba(242,236,221,.16);--mut:rgba(242,236,221,.66)}
+.sec.cream table th,.sec.cream table td{border-bottom-color:rgba(35,24,21,.15)}
+.src{font-size:11.5px;opacity:.7;margin-top:10px}
+.src b{font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:8px 0 18px}
+.kpi{border-top:3px solid var(--line);padding:10px 2px 0}
+.kpi .v{font-family:'Archivo Black';font-size:clamp(1.6rem,3.6vw,2.4rem);line-height:1;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:13px;opacity:.85;margin-top:4px}
+.kpi .d{font-size:12px;font-weight:700;color:var(--alt)}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{font-family:'DM Sans',sans-serif;fill:currentColor}
+.chart .ax{stroke:var(--grid)}
+.chart .mut{fill:var(--mut)}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;margin:4px 0 6px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+.split{display:grid;grid-template-columns:1.25fr 1fr;gap:22px;align-items:start}
+.tip{position:fixed;z-index:90;pointer-events:none;background:#231815;color:#F2ECDD;border:1px solid #D9123D;padding:7px 10px;font-size:12.5px;max-width:260px;line-height:1.4;opacity:0;transition:opacity .12s}
+.tip b{display:block;font-size:13px}
+.nest{position:relative;aspect-ratio:1;max-width:400px;width:100%;margin:0 auto}
+.nest div{position:absolute;left:50%;bottom:0;transform:translateX(-50%);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding-top:6%}
+.nest .t{width:100%;height:100%;background:rgba(217,18,61,.12);border:1px solid var(--c)}
+.nest .s{width:62%;height:62%;background:rgba(217,18,61,.28);border:1px solid var(--c)}
+.nest .o{width:28%;height:28%;background:var(--c);color:#F2ECDD;justify-content:center;padding-top:0}
+.nest b{font-family:'Archivo Black';font-size:clamp(1.1rem,2.4vw,1.5rem);line-height:1}
+.nest span{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.math{list-style:none;margin:0;padding:0;font-size:14px}
+.math li{padding:9px 0;border-bottom:1px dashed var(--line)}
+.math li:last-child{border-bottom:0}
+.math b{font-family:'Archivo Black';font-weight:400;letter-spacing:-.01em}
+.math code{font:12.5px/1.4 ui-monospace,Consolas,monospace;opacity:.85;display:block;margin-top:2px}
+.asm{display:inline-block;font-size:10.5px;font-weight:700;letter-spacing:.06em;border:1px solid currentColor;padding:0 5px;margin-left:4px;opacity:.75}
+.ue{width:100%;min-width:0;font-size:14px}
+.ue td{text-align:left;padding:7px 8px}
+.ue td:last-child{text-align:right;font-weight:700;font-variant-numeric:tabular-nums}
+.callout{background:var(--fg);color:var(--bg);padding:14px 16px;margin-top:14px;font-size:14px}
+.callout b{font-family:'Archivo Black';font-weight:400;text-transform:uppercase;font-size:15px;display:block;margin-bottom:2px}
+.metric .v{font-family:'Archivo Black';font-size:1.7rem;line-height:1;color:var(--alt)}
+.metric h3{margin:.4em 0 .3em}
+.metric p{font-size:13.5px;margin:0 0 .4em}
+.metric .tg{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.8}
+.partner{font-size:13.5px}
+.partner b{font-family:'Archivo Black';font-weight:400;font-size:15px;text-transform:uppercase;display:block}
+.phase{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:6px 0 16px}
+.phase .fr{padding:12px;font-size:13px}
+.phase .no{font-family:'Archivo Black';color:var(--alt);font-size:1.4rem;line-height:1}
+.pending{border:1px dashed var(--line);padding:22px;text-align:center;font-size:14px;opacity:.8}
+details.data{margin-top:8px;font-size:13px}
+details.data summary{cursor:pointer;font-weight:700;opacity:.8}
+details.data table{min-width:0;font-size:12.5px}
+@media(max-width:900px){
+  .bmc{grid-template-columns:1fr 1fr;grid-template-areas:"vp vp" "cs cs" "ch cr" "kp ka" "kr kr" "rs rs" "co co"}
+  .split,.g3{grid-template-columns:1fr}.kpis,.phase{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  .sec{padding:84px 16px 70px}.vl{display:none}
+  .g2,.bmc{grid-template-columns:1fr}
+  .bmc{grid-template-areas:"vp" "cs" "ch" "cr" "rs" "kp" "ka" "kr" "co"}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="tip" id="tip" role="tooltip"></div>
+<main>
+
+<!-- ============ M1 MARKET ============ -->
+<section class="sec cream" id="s-market" data-label="Market">
+  <span class="vl" style="left:10px">Market</span><span class="vl" style="right:10px">市場</span>
+  <div class="in">
+    <span class="kick rv">04 · <b>Market</b></span>
+    <h2 class="h rv">Record visitors. Culture gets 4.5%.</h2>
+    <div class="kpis rv" style="--d:.05s">
+      <div class="kpi"><div class="v">42.7M</div><div class="l">visitors in 2025</div><div class="d">+15.8% vs 2024 [S1]</div></div>
+      <div class="kpi"><div class="v">¥9.45T</div><div class="l">inbound spend 2025</div><div class="d">+16.4% [S3]</div></div>
+      <div class="kpi"><div class="v">¥229k</div><div class="l">spend per visitor</div><div class="d">target ¥250k by 2030 [S9]</div></div>
+      <div class="kpi"><div class="v">60M</div><div class="l">government target, 2030</div><div class="d">¥15T spend [S9]</div></div>
+    </div>
+    <div class="split">
+      <div class="rv" style="--d:.1s">
+        <h3 class="h">Where the ¥9.46T goes (2025)</h3>
+        <div class="legend"><span><i style="background:var(--s1)"></i>Our TAM: food + experiences</span><span><i style="background:var(--s2)"></i>Other spend</span></div>
+        <div class="chart" id="ch-spend"></div>
+        <details class="data"><summary>Data table</summary><div id="tb-spend"></div></details>
+      </div>
+      <div class="rv" style="--d:.15s">
+        <h3 class="h">Our focus markets</h3>
+        <div class="tw" style="border:0;margin:0">
+          <table style="min-width:0">
+            <thead><tr><th>Market</th><th>2025</th><th>vs 2024</th><th>2026 trend</th></tr></thead>
+            <tbody>
+              <tr><td><b>South Korea</b></td><td>9.46M</td><td>+8.3%</td><td><b>+18.6%</b> H1</td></tr>
+              <tr><td><b>India</b></td><td>0.32M</td><td><b>+35.2%</b></td><td>records</td></tr>
+              <tr><td><b>China</b></td><td>9.10M</td><td>+30.3%</td><td><b>−56.4%</b> H1</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small" style="margin-top:10px">69.4% of foreign guests stay in the 3 big metro areas [S11]. Korea and India lead; China is upside, not the base case (2025–26 travel advisory).</p>
+      </div>
+    </div>
+    <p class="src">Sources: JNTO 2025 arrivals [S1, S5] · JTA consumption survey 2025 [S3, S4, S6] · JNTO 2026 monthly [S7, S8] · Basic Plan 2026–30 [S9] · India [S10]. Full links in research.md.</p>
+  </div>
+</section>
+
+<!-- ============ M2 TAM SAM SOM ============ -->
+<section class="sec ink" id="s-size" data-label="Market size">
+  <span class="vl" style="left:10px">Market size</span><span class="vl" style="right:10px">規模</span>
+  <div class="in">
+    <span class="kick rv">04 · <b>Market size</b></span>
+    <h2 class="h rv">¥2.49T to play for</h2>
+    <div class="split" style="align-items:center">
+      <div class="rv" style="--d:.1s">
+        <div class="nest" aria-label="TAM, SAM, SOM nested circles, not to scale">
+          <div class="t"><span>TAM</span><b>¥2.49T</b></div>
+          <div class="s"><span>SAM</span><b>¥565B</b></div>
+          <div class="o"><span>SOM Y3</span><b>¥849M</b></div>
+        </div>
+        <p class="small" style="text-align:center;margin-top:6px">not to scale</p>
+      </div>
+      <ul class="math rv" style="--d:.15s">
+        <li><b>TAM ¥2.49T</b> = all inbound spend on food & drink (¥2.07T) + entertainment & services (¥0.42T), 2025 <code>[S4] · incl. transport: ¥3.44T</code></li>
+        <li><b>SAM ¥565B</b> = KR + CN + IN spend × 26.4% experience share × 70% self-planning on a phone<span class="asm">A2</span> <code>KR ¥182B + CN ¥370B + IN ¥13B<span class="asm">A1</span> · China −50% stress case: ¥380B<span class="asm">A3</span></code></li>
+        <li><b>SOM ¥849M GMV</b> = 18.87M KR+CN+IN visitors × 1% use Trip DNA<span class="asm">A4</span> × 30% book<span class="asm">A5</span> × ¥15,000<span class="asm">A6</span> <code>= 0.15% of SAM · revenue ¥142.5M (≈ US$0.95M) in Year 3</code></li>
+      </ul>
+    </div>
+    <p class="src">A# = labelled assumption (model.py). We stress-test our own market: if China stays down 50%, SAM is still ¥380B.</p>
+  </div>
+</section>
+
+<!-- ============ M3 COMPETITOR TABLE ============ -->
+<section class="sec red" id="s-compete" data-label="Why us">
+  <span class="vl" style="left:10px">Why us</span><span class="vl" style="right:10px">強み</span>
+  <div class="in">
+    <span class="kick rv">05 · <b>Competition</b></span>
+    <h2 class="h rv">16 apps. Each solves one piece.</h2>
+    <div class="tw rv" style="--d:.1s">
+      <table>
+        <thead><tr><th></th><th>Google Maps</th><th>Translate · VoiceTra</th><th>JNTO · NAVITIME</th><th>Klook · GYG · Viator</th><th>Tripadvisor · Wanderlog</th><th>Airbnb Exp · byFood</th><th>AI planners</th><th class="us">Trip DNA</th></tr></thead>
+        <tbody id="cmp"></tbody>
+      </table>
+    </div>
+    <p class="small rv" style="--d:.15s;margin-top:8px">✓ core · ◐ partial · — none. Groups show the best member. From public feature lists and app-store pages, checked 24 Oct 2026. Full 16-app table: research.md §3.</p>
+    <div class="grid g3" style="margin-top:12px">
+      <div class="rv" style="--d:.2s"><div class="fr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h3 class="h">Scale is there</h3><p class="small">Google Maps 2B+ users [C1] · Klook 11M buyers, $541M revenue [C5] · Viator $4.7B bookings [C8]</p></div></div>
+      <div class="rv" style="--d:.25s"><div class="fr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h3 class="h">Hosts pay 20–35%</h3><p class="small">GYG 20–30% [C7] · Klook 15–35% [C6]. We take 10–15%, so hosts keep ¥88 of every ¥100.</p></div></div>
+      <div class="rv" style="--d:.3s"><div class="fr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h3 class="h">Nobody repairs the day</h3><p class="small">No app stress-tests a whole itinerary or measures cultural exchange.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ M4 POSITIONING MAP ============ -->
+<section class="sec cream" id="s-map" data-label="Positioning">
+  <span class="vl" style="left:10px">Positioning</span><span class="vl" style="right:10px">ポジション</span>
+  <div class="in">
+    <span class="kick rv">05 · <b>Positioning</b></span>
+    <h2 class="h rv">Alone in the top-right</h2>
+    <div class="legend rv"><span><i style="background:var(--s2)"></i>Existing apps (16)</span><span><i style="background:var(--s1)"></i>Trip DNA</span></div>
+    <div class="chart rv" id="ch-map" style="--d:.1s;max-width:900px"></div>
+    <p class="src">Placement is our judgement from the feature table (research.md §3); coordinates in data/competitors.csv. Hover a dot for its gap.</p>
+  </div>
+</section>
+
+<!-- ============ M5 BMC ============ -->
+<section class="sec cream" id="s-business" data-label="Business model">
+  <span class="vl" style="left:10px">Business model</span><span class="vl" style="right:10px">ビジネス</span>
+  <div class="in">
+    <span class="kick rv">06 · <b>Business</b></span>
+    <h2 class="h rv">Two sides, one platform</h2>
+    <div class="bmc rv" style="--d:.1s">
+      <div class="fr" style="grid-area:kp"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Key partners</h4><ul><li>JAL, airports, station media</li><li>JNTO / JTA (Safety tips feed)</li><li>JETRO, Mitsui &amp; Co</li><li>Hakuhodo (brand campaigns)</li><li>Local hosts, guides, byFood-type operators</li><li>Universities</li></ul></div>
+      <div class="fr" style="grid-area:ka"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Key activities</h4><ul><li>Host onboarding + verification</li><li>Stress-test &amp; repair engine</li><li>Culture content</li><li>Impact reporting</li></ul></div>
+      <div class="fr" style="grid-area:kr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Key resources</h4><ul><li>Verified places DB</li><li>Host network</li><li>5-language content</li><li>Impact data</li></ul></div>
+      <div class="fr fill" style="grid-area:vp"><h4 style="color:#ff5b7e">Value proposition</h4><ul><li><b>Travellers:</b> less worry, more culture. A plan that survives reality, in one verified app, in your language</li><li><b>Hosts:</b> foreign guests they can't reach today, briefed on etiquette; keep 88%</li><li><b>Cultural exchange:</b> guests share their culture back, so hosting means meeting the world</li><li><b>Brands:</b> reach travellers at the planning moment</li></ul></div>
+      <div class="fr" style="grid-area:cr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Relationships</h4><ul><li>Always-on AI guide</li><li>Culture Passport</li><li>Partner dashboard</li><li>Meetups</li></ul></div>
+      <div class="fr" style="grid-area:ch"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Channels</h4><ul><li>Boarding-pass QR, welcome email</li><li>Airport/station QR</li><li>Host QR stands</li><li>Universities, creators</li></ul></div>
+      <div class="fr" style="grid-area:cs"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Segments</h4><ul><li>Leisure FITs: Korea, India, China</li><li>Students</li><li>Business travellers</li><li>Accessibility-first</li><li><i>Supply:</i> hosts &amp; small businesses</li></ul></div>
+      <div class="fr" style="grid-area:co"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Costs</h4><ul><li>Team (~¥90M/yr fixed by Y3)<span class="asm">A19</span></li><li>Maps / AI / translation APIs</li><li>Payments ~3–4% of GMV</li><li>Verification, legal, partner-led marketing</li></ul></div>
+      <div class="fr" style="grid-area:rs"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><h4>Revenue (ranked)</h4><ul><li>① Booking commission 10–15%</li><li>② Partner subscription ¥5,000/mo &amp; featured listings</li><li>③ Ads &amp; affiliate (airlines, eSIM, brands)</li><li>④ Trip Pass ¥500–1,000 · ⑤ guide &amp; meetup fees</li><li><b>SOS always free</b></li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ M6 REVENUE + UNIT ECONOMICS ============ -->
+<section class="sec ink" id="s-money" data-label="Unit economics">
+  <span class="vl" style="left:10px">Unit economics</span><span class="vl" style="right:10px">収益</span>
+  <div class="in">
+    <span class="kick rv">06 · <b>Money</b></span>
+    <h2 class="h rv">How Trip DNA makes money</h2>
+    <div class="split">
+      <div class="rv" style="--d:.1s">
+        <h3 class="h">Year-3 revenue by stream <span class="asm">illustrative</span></h3>
+        <div class="chart" id="ch-rev"></div>
+        <p class="small">Total <b>¥142.5M</b> on GMV ¥849M · blended take rate 16.8%</p>
+      </div>
+      <div class="rv" style="--d:.15s">
+        <h3 class="h">Per trip-user <span class="asm">assumptions A4–A19</span></h3>
+        <table class="ue">
+          <tbody>
+            <tr><td>ARPU per trip</td><td>¥660</td></tr>
+            <tr><td>CAC (60% partner channels)</td><td>¥330</td></tr>
+            <tr><td>LTV (1.6 trips · 80% margin)</td><td>¥845</td></tr>
+            <tr><td>LTV / CAC</td><td>2.6×</td></tr>
+            <tr><td>Commission · blended take rate</td><td>12% · 16.8%</td></tr>
+            <tr><td>Break-even</td><td>~382k trip-users/yr</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><b>Distribution decides it</b>Paid ads only: LTV/CAC 1.4×, never breaks even. Partner-led (airlines, QR, universities): <b style="display:inline;font-size:inherit">4.3×</b>, break-even at 227k users.</div>
+      </div>
+    </div>
+    <p class="src">Break-even ≈ 2% of KR+CN+IN trips → Year 4–5. Even Klook ($541M revenue) is still loss-making [C5]. Sensitivity table: business_model.md §5.</p>
+  </div>
+</section>
+
+<!-- ============ M7 GTM + PARTNERS ============ -->
+<section class="sec red" id="s-gtm" data-label="Go to market">
+  <span class="vl" style="left:10px">Go to market</span><span class="vl" style="right:10px">展開</span>
+  <div class="in">
+    <span class="kick rv">06 · <b>Go to market</b></span>
+    <h2 class="h rv">Reach them before they land</h2>
+    <div class="phase rv" style="--d:.1s">
+      <div class="fr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><div class="no">0</div><b>Pilot · 0–6 mo</b><br>Tokyo, 30 hosts, 1,000 travellers</div>
+      <div class="fr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><div class="no">1</div><b>Korea + India · 6–18 mo</b><br>Osaka/Kyoto, 300 partners</div>
+      <div class="fr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><div class="no">2</div><b>Scale · 18–36 mo</b><br>5 cities, 1% of focus trips</div>
+      <div class="fr"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><div class="no">3</div><b>Regional Japan · Y3+</b><br>with DMOs, off the Golden Route</div>
+    </div>
+    <div class="grid g3 rv" style="--d:.15s">
+      <div class="fr partner"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><b>Japan Airlines</b><i>Ask:</i> one QR in the Narita–Bengaluru booking email for 3 months. <i>We report:</i> installs and bookings per 1,000 passengers [J1]</div>
+      <div class="fr partner"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><b>Hakuhodo</b><i>Ask:</i> one “Culture Hours” campaign with one brand client. <i>We report:</i> culture hours created</div>
+      <div class="fr partner"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><b>JETRO</b><i>Ask:</i> 30 Tokyo SME and host introductions for the pilot. <i>We report:</i> ¥ to local businesses [J2]</div>
+      <div class="fr partner"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><b>Mitsui &amp; Co</b><i>Ask:</i> mentorship + one portfolio-company pilot (retail, mobility or payments)</div>
+      <div class="fr partner"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><b>Geek Pictures India</b><i>Ask:</i> 3 launch films with Indian creators. <i>We report:</i> views → installs</div>
+      <div class="fr partner"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><b>Stations · universities · ValueCreate</b>Delay-moment QR posters · exchange offices + student discount · dashboard pilot</div>
+    </div>
+    <p class="src" style="opacity:.85">“We’re not asking for money today: one email, one campaign, thirty introductions.” 70% of NAVITIME users install before arrival [C4].</p>
+  </div>
+</section>
+
+<!-- ============ M8 IMPACT ============ -->
+<section class="sec cream" id="s-impact" data-label="Impact">
+  <span class="vl" style="left:10px">Impact</span><span class="vl" style="right:10px">効果</span>
+  <div class="in">
+    <span class="kick rv">07 · <b>Impact</b></span>
+    <h2 class="h rv">We measure cultural exchange</h2>
+    <p class="lead rv">Free the time → aim it at culture → make it two-way → spread it out → <b>measure it</b>.</p>
+    <div class="grid g3 rv" style="--d:.1s">
+      <div class="fr metric"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><span class="tg">Pilot target</span><div class="v">≥ 3 h</div><h3 class="h">Culture hours / day</h3><p>Today experiences are just 4.5% of visitor spend [S4]</p></div>
+      <div class="fr metric"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><span class="tg">Pilot target</span><div class="v">≥ 60%</div><h3 class="h">¥ to small businesses</h3><p>of in-app GMV to independent hosts</p></div>
+      <div class="fr metric"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><span class="tg">Pilot target</span><div class="v">≥ 40%</div><h3 class="h">Visits outside top-20</h3><p>vs 69.4% of guests staying in 3 metro areas [S11]</p></div>
+      <div class="fr metric"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><span class="tg">By design</span><div class="v">88%</div><h3 class="h">Host keeps</h3><p>vs 65–80% on global marketplaces [C6, C7]</p></div>
+      <div class="fr metric"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><span class="tg">Pilot target</span><div class="v">≥ 4</div><h3 class="h">Passport stamps / trip</h3><p>no app measures this today</p></div>
+      <div class="fr metric"><i class="n tl"></i><i class="n tr"></i><i class="n br"></i><i class="n bl"></i><span class="tg">Pilot target</span><div class="v">1 in 3</div><h3 class="h">Two-way exchanges</h3><p>host bookings where the visitor shares their culture</p></div>
+    </div>
+    <p class="src">Supports Japan's 2030 goals: 130M regional stays, 100 overtourism regions, ¥250k per visitor [S9]. Targets are goals, not results.</p>
+  </div>
+</section>
+
+<!-- ============ M9 SURVEY ============ -->
+<section class="sec ink" id="s-survey" data-label="Survey">
+  <span class="vl" style="left:10px">Simulated survey</span><span class="vl" style="right:10px">調査</span>
+  <div class="in">
+    <span class="kick rv">02 · <b>Survey</b></span>
+    <h2 class="h rv" id="sv-title">What travellers told us</h2>
+    <p class="lead rv" id="sv-n"></p>
+    <div class="grid g3 rv" style="--d:.1s" id="sv-charts"></div>
+    <p class="small rv" id="sv-sup" style="--d:.15s;margin-top:14px"></p>
+    <p class="src" id="sv-src">Convenience sample (college, family, online groups), not random. </p>
+  </div>
+</section>
+
+</main>
+
+<script>
+// ===== WS3 data (from model.py / research.md) =====
+const SPEND = [ // ¥ trillion, 2025, JTA [S4]
+  { k: "Accommodation", v: 3.4617, tam: false },
+  { k: "Shopping", v: 2.5490, tam: false },
+  { k: "Food & drink", v: 2.0711, tam: true },
+  { k: "Transport", v: 0.9465, tam: false },
+  { k: "Entertainment & services", v: 0.4218, tam: true },
+];
+const REV = [ // ¥ million, Year 3, model.py
+  { k: "Booking commission", v: 101.9 },
+  { k: "Partner subscriptions", v: 18.0 },
+  { k: "Ads & affiliate", v: 9.4 },
+  { k: "Trip Pass", v: 7.5 },
+  { k: "Guide & meetup fees", v: 5.7 },
+];
+// x: single-purpose(0) -> all-in-one(10) · y: logistics(0) -> culture(10) · from data/competitors.csv
+const MAP = [
+  ["Google Maps", 4.5, 2, "Reroutes one journey, not your day; no etiquette or hosts", "r"],
+  ["Google Translate", 1.5, 3.2, "Translates words, not meaning", "r"],
+  ["VoiceTra", 1, 2.4, "Translation only, needs data", "r"],
+  ["Safety tips", 1, 1, "Alerts only; doesn't re-plan your day", "r"],
+  ["JNTO app", 5, 4.5, "Official info, no personal plan or booking", "l"],
+  ["NAVITIME", 5.8, 3, "Transit-first; no whole-day repair or culture", "r"],
+  ["Trip.com", 6.5, 2, "Books logistics, not culture", "r"],
+  ["Klook", 4.3, 6.2, "Catalogue, not a plan; up to 35% host fee", "r"],
+  ["GetYourGuide", 2.8, 6.6, "Western-first; host keeps 70–80%", "r"],
+  ["Viator", 3.4, 5.7, "One booking at a time", "r"],
+  ["Tripadvisor", 3.8, 4.9, "Reviews, not a plan that survives the day", "l"],
+  ["Wanderlog", 3.6, 3.4, "Static plan breaks on the first delay", "r"],
+  ["AI planners", 5.6, 4.4, "Can invent places; no live data or hosts", "r"],
+  ["Airbnb Exp.", 2.6, 8, "One experience, not the trip", "r"],
+  ["byFood", 1.4, 7.6, "Food only (a partner, not a threat)", "r"],
+  ["MagicalTrip", 1.6, 6.9, "Single tours", "r"],
+];
+const CMP_ROWS = [ // order matches table header groups
+  ["Navigation & transit", "✓—✓—◐——✓"],
+  ["Translation", "◐✓◐———◐✓"],
+  ["Personal itinerary", "◐—◐◐✓—✓✓"],
+  ["Disruption stress-test + repair", "◐—◐———◐✓"],
+  ["Booking & payment", "◐—◐✓◐✓◐✓"],
+  ["Culture & etiquette", "——◐◐◐◐◐✓"],
+  ["Local hosts + two-way exchange", "———◐—✓—✓"],
+  ["SOS / safety", "◐—◐————✓"],
+  ["Age & colourblind UI modes", "◐——————✓"],
+  ["Verified-only AI", "——✓◐—◐—✓"],
+  ["Measures cultural impact", "—————◐—✓"],
+];
+// Simulated survey (n=407), labelled on the slide. Source: data/survey_simulated.json.
+const SURVEY = {"label": "Simulated", "title": "Simulated survey · n = 407", "n": 407, "line": "98.8% India · 62% aged 18–24 or under · 10% have visited or plan to visit Japan", "support": "70% say plans break a few times per trip or more · 47% would book experiences in-app · 66% prefer the Vibrant UI", "charts": [{"title": "Top worries", "rows": [{"k": "Planning / too many apps", "v": 75, "c": 305, "n": 406}, {"k": "Language", "v": 73, "c": 297, "n": 406}, {"k": "Cost", "v": 62, "c": 252, "n": 406}, {"k": "Etiquette", "v": 59, "c": 240, "n": 406}, {"k": "Getting around", "v": 56, "c": 228, "n": 406}], "headline": "Planning and language lead"}, {"title": "Would pay for a Trip Pass", "rows": [{"k": "Free only", "v": 33, "c": 134, "n": 407}, {"k": "≤ ¥500 / 7d", "v": 15, "c": 61, "n": 407}, {"k": "¥500–1,000 / 7d", "v": 21, "c": 85, "n": 407}, {"k": "¥1,000–1,500 / 14d", "v": 22, "c": 90, "n": 407}, {"k": "> ¥1,500", "v": 9, "c": 37, "n": 407}], "headline": "67% would pay something"}, {"title": "Local culture, two-way", "rows": [{"k": "Interest 4–5 of 5", "v": 97, "c": 395, "n": 407}, {"k": "Would share own culture", "v": 94, "c": 382, "n": 407}], "headline": "97% rate local-host culture 4–5"}]};
+
+// ===== helpers =====
+const tip = document.getElementById("tip");
+function showTip(e, html) { tip.innerHTML = html; tip.style.opacity = 1; moveTip(e); }
+function moveTip(e) {
+  const x = Math.min(e.clientX + 14, innerWidth - 270), y = Math.min(e.clientY + 14, innerHeight - 90);
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.style.opacity = 0; }
+function bindTips(root) {
+  root.querySelectorAll("[data-tip]").forEach(el => {
+    el.addEventListener("pointerenter", e => showTip(e, el.dataset.tip));
+    el.addEventListener("pointermove", moveTip);
+    el.addEventListener("pointerleave", hideTip);
+  });
+}
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+// Horizontal bar chart: thin bars, 4px rounded data-end, 2px gaps, direct value labels, recessive axis.
+function hbar(el, rows, { fmt, color, max, labelW = 170, w = 560, bh = 18, gap = 12 } = {}) {
+  max = max || Math.max(...rows.map(r => r.v));
+  const plotW = w - labelW - 70, h = rows.length * (bh + gap) + 6;
+  let s = `<svg viewBox="0 0 ${w} ${h}" role="img" aria-label="bar chart">`;
+  s += `<line class="ax" x1="${labelW}" x2="${labelW}" y1="0" y2="${h - 4}" stroke-width="1"/>`;
+  rows.forEach((r, i) => {
+    const y = i * (bh + gap) + 4, bw = Math.max(2, r.v / max * plotW), c = color(r);
+    s += `<g data-tip="<b>${esc(r.k)}</b>${esc(fmt(r.v))}${r.note ? " · " + esc(r.note) : ""}">`;
+    s += `<rect x="${labelW - 4}" y="${y - gap / 2}" width="${w - labelW + 4}" height="${bh + gap}" fill="transparent"/>`;
+    s += `<text x="${labelW - 10}" y="${y + bh / 2 + 4.5}" text-anchor="end" font-size="13">${esc(r.k)}</text>`;
+    s += `<path d="M${labelW},${y}h${bw - 4}a4,4 0 0 1 4,4v${bh - 8}a4,4 0 0 1 -4,4h${-(bw - 4)}z" fill="${c}"/>`;
+    s += `<text x="${labelW + bw + 8}" y="${y + bh / 2 + 4.5}" font-size="13" font-weight="700">${esc(fmt(r.v))}</text></g>`;
+  });
+  el.innerHTML = s + "</svg>";
+  bindTips(el);
+}
+
+// ===== M1 spend chart =====
+const total = SPEND.reduce((a, r) => a + r.v, 0);
+const css = n => getComputedStyle(document.getElementById("s-market")).getPropertyValue(n).trim();
+hbar(document.getElementById("ch-spend"), SPEND.map(r => ({ ...r, note: (r.v / total * 100).toFixed(1) + "% of spend" })), {
+  fmt: v => "¥" + v.toFixed(2) + "T", color: r => r.tam ? css("--s1") : css("--s2"), labelW: 175,
+});
+document.getElementById("tb-spend").innerHTML = "<table><thead><tr><th>Category</th><th>¥T</th><th>Share</th></tr></thead><tbody>" +
+  SPEND.map(r => `<tr><td>${r.k}</td><td>${r.v.toFixed(4)}</td><td>${(r.v / total * 100).toFixed(1)}%</td></tr>`).join("") + "</tbody></table>";
+
+// ===== M3 comparison table =====
+document.getElementById("cmp").innerHTML = CMP_ROWS.map(([f, cells]) =>
+  `<tr><td>${f}</td>${[...cells].map((c, i) => i === 7 ? `<td class="us">${c}</td>` : `<td class="${c === "—" ? "dim" : ""}">${c}</td>`).join("")}</tr>`).join("");
+
+// ===== M4 positioning map =====
+(function () {
+  const el = document.getElementById("ch-map"), sec = document.getElementById("s-map");
+  const s1 = getComputedStyle(sec).getPropertyValue("--s1").trim(), s2 = getComputedStyle(sec).getPropertyValue("--s2").trim();
+  const W = 900, H = 520, L = 40, R = 20, T = 20, B = 44, pw = W - L - R, ph = H - T - B;
+  const X = v => L + v / 10 * pw, Y = v => T + (10 - v) / 10 * ph;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Positioning map: 16 competitors and Trip DNA">`;
+  s += `<rect x="${X(5)}" y="${Y(10)}" width="${pw / 2}" height="${ph / 2}" fill="${s1}" opacity=".07"/>`;
+  s += `<rect x="${L}" y="${T}" width="${pw}" height="${ph}" fill="none" class="ax" stroke-width="1"/>`;
+  s += `<line class="ax" x1="${X(5)}" x2="${X(5)}" y1="${T}" y2="${T + ph}" stroke-dasharray="4 4"/>`;
+  s += `<line class="ax" x1="${L}" x2="${L + pw}" y1="${Y(5)}" y2="${Y(5)}" stroke-dasharray="4 4"/>`;
+  s += `<text x="${L}" y="${H - 14}" font-size="13" font-weight="700">← Single-purpose</text>`;
+  s += `<text x="${L + pw}" y="${H - 14}" font-size="13" font-weight="700" text-anchor="end">All-in-one →</text>`;
+  s += `<text transform="translate(${L - 14},${T + ph}) rotate(-90)" font-size="13" font-weight="700">Logistics</text>`;
+  s += `<text transform="translate(${L - 14},${T}) rotate(-90)" font-size="13" font-weight="700" text-anchor="end">Culture</text>`;
+  s += `<text x="${X(9.9)}" y="${Y(9.75)}" font-size="11" font-weight="700" letter-spacing=".12em" text-anchor="end" class="mut">ALL-IN-ONE + CULTURE</text>`;
+  MAP.forEach(([n, x, y, gap, side]) => {
+    const cx = X(x), cy = Y(y), dx = side === "l" ? -10 : 10;
+    s += `<g data-tip="<b>${esc(n)}</b>${esc(gap)}"><circle cx="${cx}" cy="${cy}" r="16" fill="transparent"/>`;
+    s += `<circle cx="${cx}" cy="${cy}" r="6" fill="${s2}" style="stroke:var(--bg)" stroke-width="2"/>`;
+    s += `<text x="${cx + dx}" y="${cy + 4.5}" font-size="12.5" text-anchor="${side === "l" ? "end" : "start"}">${esc(n)}</text></g>`;
+  });
+  const tx = X(9), ty = Y(8.6);
+  s += `<g data-tip="<b>Trip DNA</b>Plan → stress-test → repair · translate · book · culture · hosts · SOS · impact. Everything verifiable in one place.">`;
+  s += `<circle cx="${tx}" cy="${ty}" r="26" fill="${s1}" opacity=".18"/><circle cx="${tx}" cy="${ty}" r="11" fill="${s1}" style="stroke:var(--bg)" stroke-width="2"/>`;
+  s += `<text x="${tx - 18}" y="${ty + 5}" font-size="17" font-weight="700" text-anchor="end" font-family="Archivo Black">TRIP DNA</text></g>`;
+  el.innerHTML = s + "</svg>";
+  bindTips(el);
+})();
+
+// ===== M6 revenue chart =====
+(function () {
+  const sec = document.getElementById("s-money"), s1 = getComputedStyle(sec).getPropertyValue("--s1").trim();
+  const t = REV.reduce((a, r) => a + r.v, 0);
+  hbar(document.getElementById("ch-rev"), REV.map(r => ({ ...r, note: Math.round(r.v / t * 100) + "% of revenue" })), {
+    fmt: v => "¥" + v.toFixed(1) + "M", color: () => s1, labelW: 165,
+  });
+})();
+
+// ===== M9 survey =====
+(function () {
+  const box = document.getElementById("sv-charts"), n = document.getElementById("sv-n");
+  if (!SURVEY) {
+    n.textContent = "Survey live. Results land here at 07:00.";
+    box.innerHTML = ["Top worries", "Willing to pay for a Trip Pass", "Interest in local culture"].map(t =>
+      `<div class="pending"><b>${t}</b><br>waiting for responses</div>`).join("");
+    return;
+  }
+  const sec = document.getElementById("s-survey"), s1 = getComputedStyle(sec).getPropertyValue("--s1").trim();
+  if (SURVEY.title) document.getElementById("sv-title").textContent = SURVEY.title;
+  n.innerHTML = (SURVEY.label ? `<span class="asm">${esc(SURVEY.label)}</span> ` : "") + (SURVEY.line ? esc(SURVEY.line)
+    : `<b>n = ${SURVEY.n}</b> · ${SURVEY.countries} countries · ${SURVEY.visitedOrPlanning}% have visited or plan to visit Japan`);
+  if (SURVEY.note) document.getElementById("sv-src").textContent = SURVEY.note;
+  if (SURVEY.support) document.getElementById("sv-sup").textContent = SURVEY.support;
+  box.innerHTML = SURVEY.charts.map((c, i) => `<div><h3 class="h">${esc(c.title)}</h3><div class="chart" id="svc${i}"></div><p class="small">${esc(c.headline || "")}</p></div>`).join("");
+  SURVEY.charts.forEach((c, i) => hbar(document.getElementById("svc" + i), c.rows, {
+    fmt: v => v + "%", color: () => s1, max: 100, labelW: 150, w: 420, bh: 14, gap: 9,
+  }));
+})();
+
+// reveal on scroll
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("vis"); io.unobserve(e.target); } }), { threshold: .12 });
+document.querySelectorAll(".rv").forEach(el => io.observe(el));
+// keyboard: arrow keys move between sections
+const secs = [...document.querySelectorAll(".sec")];
+addEventListener("keydown", e => {
+  const cur = secs.findIndex(s => s.getBoundingClientRect().top > -innerHeight / 2);
+  if (["ArrowRight", "ArrowDown", "PageDown"].includes(e.key)) { e.preventDefault(); secs[Math.min(secs.length - 1, cur + 1)].scrollIntoView(); }
+  if (["ArrowLeft", "ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); secs[Math.max(0, cur - 1)].scrollIntoView(); }
+});
+</script>
+</body>
+</html>

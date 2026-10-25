@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trip DNA Survey Planner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F2ECDD;--fg:#231815;--line:#D9123D;--card:#fff8ec;--mut:rgba(35,24,21,.62);--grid:rgba(35,24,21,.14);--s1:#D9123D;--s2:#2F6FB0;--chip:#231815;--chipfg:#F2ECDD}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#231815;--fg:#F2ECDD;--card:#2e211d;--mut:rgba(242,236,221,.66);--grid:rgba(242,236,221,.16);--s1:#E8506F;--s2:#4A8AD0;--chip:#F2ECDD;--chipfg:#231815}}
+:root[data-theme=dark]{--bg:#231815;--fg:#F2ECDD;--card:#2e211d;--mut:rgba(242,236,221,.66);--grid:rgba(242,236,221,.16);--s1:#E8506F;--s2:#4A8AD0;--chip:#F2ECDD;--chipfg:#231815}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 'DM Sans',sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:28px 16px 80px}
+h1,h2,h3{font-family:'Archivo Black',sans-serif;text-transform:uppercase;letter-spacing:-.02em;line-height:1;margin:0 0 .5em}
+h1{font-size:clamp(1.9rem,5vw,3rem)}h2{font-size:clamp(1.3rem,3vw,1.8rem);margin-top:1.6em}h3{font-size:1rem;letter-spacing:0}
+.kick{display:inline-block;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;border:1px solid currentColor;padding:2px 10px;margin-bottom:12px}
+.lead{font-size:1.08rem;max-width:70ch}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--bg);display:flex;gap:6px;flex-wrap:wrap;padding:10px 0;border-bottom:1px solid var(--line);margin:16px 0 8px}
+nav.tabs button{font:inherit;font-weight:700;border:1px solid var(--fg);background:transparent;color:var(--fg);padding:6px 12px;cursor:pointer}
+nav.tabs button[aria-selected=true]{background:var(--chip);color:var(--chipfg)}
+.stat{display:flex;gap:18px;flex-wrap:wrap;margin:10px 0}
+.stat div{border-top:3px solid var(--line);padding-top:6px;min-width:120px}
+.stat b{font-family:'Archivo Black';font-size:1.6rem;display:block;line-height:1.1;font-variant-numeric:tabular-nums}
+.stat span{font-size:12.5px;color:var(--mut)}
+.q{background:var(--card);border:1px solid var(--grid);border-left:4px solid var(--line);padding:14px 16px;margin:12px 0}
+.q.off{opacity:.45;border-left-color:var(--grid)}
+.q header{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.q .num{font-family:'Archivo Black';color:var(--s1);margin-right:6px}
+.q .t{font-weight:700;font-size:1.02rem}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0}
+.tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--grid);padding:1px 7px}
+.tag.req{border-color:var(--s1);color:var(--s1)}
+.q ol{margin:6px 0 6px;padding-left:1.4em}
+.q li{margin:2px 0}
+.why{font-size:13.5px;color:var(--mut)}
+.why b{color:var(--fg)}
+.keep{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;white-space:nowrap;cursor:pointer}
+.keep input{width:18px;height:18px;accent-color:#D9123D}
+select{font:inherit;font-size:13px;padding:3px 6px;background:var(--card);color:var(--fg);border:1px solid var(--grid)}
+.show{display:flex;gap:8px;align-items:center;font-size:13px;margin-top:6px;flex-wrap:wrap}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{border-bottom:1px solid var(--grid);padding:7px 8px;text-align:left;vertical-align:top}
+th{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase}
+.tw{overflow-x:auto}
+.btn{font:inherit;font-weight:700;border:1px solid var(--fg);background:var(--chip);color:var(--chipfg);padding:8px 14px;cursor:pointer}
+.btn.alt{background:transparent;color:var(--fg)}
+textarea{width:100%;min-height:120px;font:12.5px/1.4 ui-monospace,Consolas,monospace;background:var(--card);color:var(--fg);border:1px solid var(--grid);padding:8px}
+.charts{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr));gap:16px;margin-top:14px}
+.cc{background:var(--card);border:1px solid var(--grid);padding:14px}
+.cc .hl{font-size:13.5px;margin:4px 0 0}
+.chart svg{display:block;width:100%;height:auto}
+.chart text{font-family:'DM Sans',sans-serif;fill:currentColor}
+.ax{stroke:var(--grid)}
+.note{font-size:13px;color:var(--mut)}
+.warn{border:1px dashed var(--s1);padding:10px 12px;font-size:13.5px;margin:10px 0}
+.tip{position:fixed;z-index:90;pointer-events:none;background:#231815;color:#F2ECDD;border:1px solid #D9123D;padding:6px 9px;font-size:12.5px;max-width:260px;opacity:0;transition:opacity .12s}
+.tip b{display:block}
+[hidden]{display:none!important}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+</style>
+</head>
+<body>
+<div class="tip" id="tip"></div>
+<div class="wrap">
+  <span class="kick">WS3 · Survey</span>
+  <h1>Traveller survey planner</h1>
+  <p class="lead">Every question, every option and why we ask it. Untick what you want to drop, choose how each one is shown, then use <b>Results</b> at 07:00 to turn the Google Sheets export into deck charts. Source of truth for wording: <code>google_form_format.md</code>.</p>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="plan">1 · Questions</button>
+    <button role="tab" aria-selected="false" data-tab="map">2 · What it proves</button>
+    <button role="tab" aria-selected="false" data-tab="dist">3 · Distribution</button>
+    <button role="tab" aria-selected="false" data-tab="res">4 · Results → charts</button>
+    <button role="tab" aria-selected="false" data-tab="sim">5 · Simulated results (n = 407)</button>
+  </nav>
+
+  <!-- TAB 1 -->
+  <section data-panel="plan">
+    <div class="stat">
+      <div><b id="st-n">0</b><span>questions kept</span></div>
+      <div><b id="st-t">0:00</b><span>est. time to complete</span></div>
+      <div><b id="st-c">0</b><span>deck charts fed</span></div>
+    </div>
+    <p class="note">Time estimate: ~7 s per multiple choice, ~10 s per checkbox, ~25 s per open text. Aim for ≤ 2:00.</p>
+    <div id="qs"></div>
+  </section>
+
+  <!-- TAB 2 -->
+  <section data-panel="map" hidden>
+    <h2>Hypothesis → question → slide</h2>
+    <div class="tw"><table>
+      <thead><tr><th>We claim</th><th>Proved by</th><th>Slide</th><th>If the data disagrees</th></tr></thead>
+      <tbody>
+        <tr><td>Planning overload: a plan is spread across many apps</td><td>Q7 apps · Q5 "Planning"</td><td>Problem</td><td>Replace "7+ apps" with the real median</td></tr>
+        <tr><td>Plans break often</td><td>Q6</td><td>Problem / stress-test demo</td><td>Lead with culture, keep stress-test as a safety net</td></tr>
+        <tr><td>Cultural disconnect: language, etiquette, hidden places</td><td>Q5 options 1, 5, 9</td><td>Problem</td><td>Show whichever worry is #1</td></tr>
+        <tr><td>Visitors want local hosts</td><td>Q8 (top-2 box)</td><td>Culture exchange</td><td>Frame hosts as an option, not a requirement</td></tr>
+        <tr><td>Exchange can be two-way</td><td>Q9</td><td>Impact / culture</td><td>Keep meetups light (language café only)</td></tr>
+        <tr><td>All-in-one / self-repairing plan is wanted</td><td>Q10</td><td>Solution / USP</td><td>Re-order features by votes</td></tr>
+        <tr><td>3 UI modes matter</td><td>Q11 × Q3 age</td><td>Built for everyone</td><td>Show the split honestly</td></tr>
+        <tr><td>Trip Pass ¥500–1,000 is fair</td><td>Q12</td><td>Business / unit economics (A8, A9)</td><td>Move the price to the band most chose; update A8 in model.py</td></tr>
+        <tr><td>Focus markets: Korea, India, China</td><td>Q2</td><td>Survey header line</td><td>State the sample honestly (likely mostly India)</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <!-- TAB 3 -->
+  <section data-panel="dist" hidden>
+    <h2>Getting 50–100+ responses by 07:00</h2>
+    <div class="tw"><table>
+      <thead><tr><th>Channel</th><th>Tactic</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>College WhatsApp groups</td><td>short message + link, re-post at 23:00</td><td>biggest volume</td></tr>
+        <tr><td>Family groups</td><td>"Have you been to Japan? 2 min"</td><td>best quality (Q1 = visited)</td></tr>
+        <tr><td>Instagram story</td><td>Tokyo photo + link sticker</td><td>reach</td></tr>
+        <tr><td>Reddit r/JapanTravel, r/travel, r/india</td><td>check rules; use weekly threads</td><td>international</td></tr>
+        <tr><td>Korean / Chinese / Japanese friends, international students</td><td>personal ask to forward</td><td>focus markets + host view</td></tr>
+        <tr><td>LinkedIn</td><td>"We're in the final, help us in 2 min"</td><td>business travellers</td></tr>
+      </tbody>
+    </table></div>
+    <h3 style="margin-top:18px">WhatsApp message</h3>
+    <textarea readonly id="wa">Hi! 👋 Our team is in the final of the Thapar Japan Hackathon. We're building Trip DNA, an app that makes travel in Japan easy. Could you fill this 2-minute survey? Even if you haven't been to Japan 🙏 [LINK]</textarea>
+    <div class="row"><button class="btn alt" id="copywa">Copy message</button></div>
+  </section>
+
+  <!-- TAB 4 -->
+  <section data-panel="res" hidden>
+    <h2>Results → charts</h2>
+    <p class="note">Google Form → Responses → <b>Link to Sheets</b> → File → Download → <b>CSV</b>. Then upload it or paste it below. Everything stays in this browser.</p>
+    <div class="row">
+      <input type="file" id="file" accept=".csv,text/csv">
+      <button class="btn alt" id="sample">Load SAMPLE data (fake, for preview)</button>
+    </div>
+    <textarea id="csv" placeholder="…or paste CSV here"></textarea>
+    <div class="row">
+      <button class="btn" id="build">Build charts</button>
+      <label class="keep"><input type="checkbox" id="onlyJp"> Only people who visited or are planning (Q1 = 1–2)</label>
+    </div>
+    <div id="sampleWarn" class="warn" hidden>⚠ These are <b>sample (fake) responses</b> for previewing layout. Never put them in the deck.</div>
+    <div id="summary" class="stat"></div>
+    <div id="integrity" class="warn" hidden></div>
+    <div class="charts" id="charts"></div>
+    <h3 style="margin-top:22px">For the deck</h3>
+    <p class="note">Copy this and paste it over <code>const SURVEY = null;</code> in <code>ws3_slides.html</code> (it fills the survey slide with the 3 key charts).</p>
+    <textarea id="json" readonly></textarea>
+    <div class="row"><button class="btn alt" id="copyjson">Copy JSON for slides</button></div>
+  </section>
+
+  <!-- TAB 5 -->
+  <section data-panel="sim" hidden>
+    <h2>Simulated results · n = 407</h2>
+    <div class="warn" style="border-style:solid">🧪 <b>Simulated responses.</b> <span id="sim-note"></span></div>
+    <div class="stat" id="sim-kpi"></div>
+    <div class="charts" id="sim-charts"></div>
+    <h3 style="margin-top:22px">E3 · How stressful is each aspect? (counts, read from chart ±3)</h3>
+    <div class="tw" id="sim-grid"></div>
+  </section>
+</div>
+
+<script>
+// ===== Question bank (wording must match google_form_format.md and the live form) =====
+const Q = [
+  { id: "Q1", sec: "About you", t: "Have you been to Japan, or are you planning to go?", type: "mc", req: true, core: true,
+    match: "been to Japan",
+    o: ["Yes, I've visited Japan", "I'm planning a trip in the next 12 months", "I'd like to go someday", "Not really, but I travel abroad", "I don't travel abroad"],
+    why: "Segments everyone; branch option 5 to the last section.", chart: "KPI line: % visited or planning", show: ["kpi", "bar"] },
+  { id: "Q2", sec: "About you", t: "Where is home?", type: "dropdown", req: true, core: true, match: "Where is home",
+    o: ["India", "China", "South Korea", "Taiwan", "Hong Kong", "Southeast Asia (Thailand, Vietnam, Indonesia, Philippines, Malaysia, Singapore)", "USA / Canada", "UK / Europe", "Australia / New Zealand", "Middle East", "Japan", "Other"],
+    short: ["India", "China", "South Korea", "Taiwan", "Hong Kong", "Southeast Asia", "USA / Canada", "UK / Europe", "Australia / NZ", "Middle East", "Japan", "Other"],
+    why: "Shows the focus markets are in the sample.", chart: "KPI line: # countries", show: ["kpi", "bar"] },
+  { id: "Q3", sec: "About you", t: "Your age", type: "mc", req: true, core: true, match: "Your age",
+    o: ["Under 18", "18–24", "25–34", "35–44", "45–54", "55+"], why: "Crosses with UI preference; student discount.", chart: "Crosstab with Q11", show: ["bar", "none"] },
+  { id: "Q4", sec: "About you", t: "Main reason for your (planned) trip", type: "mc", req: true, core: true, match: "Main reason",
+    o: ["Holiday / sightseeing", "Study or exchange programme", "Business / work", "Visiting friends or family", "Events (anime, concerts, sports, festivals)", "Other"],
+    short: ["Holiday", "Study / exchange", "Business", "Friends / family", "Events", "Other"],
+    why: "Validates the 3 user groups.", chart: "Support stat", show: ["bar", "none"] },
+  { id: "Q5", sec: "Pain points", t: "What worries you most about travelling in Japan? Pick up to 3.", type: "cb", req: true, core: true, match: "worries you most", key: true,
+    o: ["Language: reading signs, menus, talking to people", "Planning: too many apps, too much research", "Getting around: trains, transfers, IC cards", "Plans going wrong: delays, weather, closures, crowds", "Not knowing the etiquette / offending someone by mistake", "Safety and emergencies (getting lost, earthquakes, medical help)", "Cost / budget", "Food: vegetarian, halal, allergies", "Only seeing the touristy places, missing real local life"],
+    short: ["Language", "Planning / too many apps", "Getting around", "Plans going wrong", "Etiquette", "Safety & emergencies", "Cost", "Food / dietary", "Only touristy places"],
+    why: "CHART 1. Options 1, 2, 4, 5, 9 = our two problems.", chart: "Chart 1: Top worries", show: ["bar", "none"], opts: "Max 3 · shuffle · Other on" },
+  { id: "Q6", sec: "Pain points", t: "On a trip abroad, how often do your plans break?", type: "mc", req: true, core: true, match: "how often do your plans break",
+    o: ["Never", "Once per trip", "A few times per trip", "Almost every day", "I don't usually plan"],
+    why: "Backs the stress-test feature.", chart: "One-liner: % 'a few times' or more", show: ["kpi", "bar"] },
+  { id: "Q7", sec: "Pain points", t: "How many apps do you use to plan and get around on one trip?", type: "mc", req: true, core: true, match: "How many apps",
+    o: ["1–2", "3–4", "5–6", "7 or more", "Not sure"], why: "Checks the '7+ apps' claim.", chart: "One-liner: median apps", show: ["kpi", "bar"] },
+  { id: "Q8", sec: "Culture, features, price", t: "How interested are you in experiencing local culture with a local host?", type: "scale", req: true, core: true, match: "local culture with a local host", key: true,
+    o: ["1", "2", "3", "4", "5"], why: "CHART 3. Report top-2 box (4–5).", chart: "Chart 3: Interest in local culture", show: ["kpi", "bar"], opts: "1 = Not interested · 5 = Very interested" },
+  { id: "Q9", sec: "Culture, features, price", t: "Would you also like to share your own culture with locals?", type: "mc", req: true, core: true, match: "share your own culture",
+    o: ["Yes, I'd love that", "Maybe, if it's easy to join", "Probably not", "No"], why: "Proves exchange is two-way.", chart: "With Chart 3", show: ["kpi", "bar"] },
+  { id: "Q10", sec: "Culture, features, price", t: "Which would help you most? Pick up to 3.", type: "cb", req: true, core: true, match: "help you most",
+    o: ["A plan that fixes itself when something goes wrong (delay, rain, closure)", "Everything in one app: maps, translation, bookings", "Etiquette tips and the story behind each place I visit", "Booking verified local hosts and guides", "Hidden local spots beyond the famous hotspots", "One-tap SOS / emergency help in my language", "Student or disability discounts", "Meeting locals and other travellers (meetups, language exchange)"],
+    short: ["Self-fixing plan", "All in one app", "Etiquette + stories", "Verified hosts & guides", "Hidden local spots", "One-tap SOS", "Student / disability discounts", "Meet locals & travellers"],
+    why: "Feature priority; backs the USP.", chart: "Feature ranking", show: ["bar", "none"], opts: "Max 3 · shuffle" },
+  { id: "Q11", sec: "Culture, features, price", t: "Which app style would you prefer?", type: "mc-img", req: true, core: true, match: "app style",
+    o: ["Vibrant", "Simple", "Colour-blind safe", "No preference"], why: "Validates the 3 UI modes (add prototype screenshots).", chart: "UI split (by age)", show: ["bar", "none"] },
+  { id: "Q12", sec: "Culture, features, price", t: "Would you pay for a Trip Pass?", type: "mc", req: true, core: true, match: "Trip Pass", key: true,
+    o: ["No, I'd only use the free version", "Yes, up to ¥500 for 7 days", "Yes, ¥500–1,000 for 7 days", "Yes, ¥1,000–1,500 for 14 days", "Yes, more than ¥1,500"],
+    short: ["Free only", "≤ ¥500 / 7d", "¥500–1,000 / 7d", "¥1,000–1,500 / 14d", "> ¥1,500"],
+    why: "CHART 2. Sets the price and A8 conversion.", chart: "Chart 2: Willingness to pay", show: ["bar", "kpi"] },
+  { id: "Q13", sec: "Last bit", t: "What is the ONE thing that would make your trip to Japan easier?", type: "para", req: false, core: true, match: "ONE thing",
+    o: [], why: "2–3 real quotes for the deck.", chart: "Quote cards", show: ["quotes", "none"] },
+  { id: "Q14", sec: "Last bit", t: "Want early access to Trip DNA? Leave your email.", type: "short", req: false, core: true, match: "early access",
+    o: [], why: "Waitlist = traction number.", chart: "Traction: N signed up", show: ["kpi", "none"] },
+  { id: "E1", sec: "Optional extras", t: "How long is/was your trip?", type: "mc", req: false, core: false, match: "How long",
+    o: ["1–4 days", "5–7", "8–14", "15+"], why: "ARPU per trip.", chart: "Support", show: ["bar", "none"] },
+  { id: "E2", sec: "Optional extras", t: "Rough total budget per person, excluding flights?", type: "mc", req: false, core: false, match: "budget",
+    o: ["< ₹50k", "₹50k–1L", "₹1–2L", "₹2L+"], why: "Compare with JNTO ¥229k per visitor.", chart: "Support", show: ["bar", "none"] },
+  { id: "E3", sec: "Optional extras", t: "Rate how stressful each was (1–5)", type: "grid", req: false, core: false, match: "stressful",
+    o: ["Language", "Navigation", "Planning", "Etiquette", "Safety"], why: "Heatmap instead of bars.", chart: "Heatmap", show: ["none"] },
+  { id: "E4", sec: "Optional extras", t: "Which apps did you use?", type: "cb", req: false, core: false, match: "apps did you use",
+    o: ["Google Maps", "Google Translate", "Klook", "Tripadvisor", "Japan Travel (NAVITIME)", "JNTO app", "Wanderlog", "Airbnb", "Booking.com"], why: "Confirms real competitors.", chart: "Competitor usage", show: ["bar", "none"] },
+  { id: "E5", sec: "Optional extras", t: "Van Westendorp: too cheap / bargain / expensive / too expensive (¥)", type: "short×4", req: false, core: false, match: "too cheap",
+    o: [], why: "Price-sensitivity curve (+40 s).", chart: "Price curve", show: ["none"] },
+  { id: "E6", sec: "Optional extras", t: "How did you find this survey?", type: "mc", req: false, core: false, match: "find this survey",
+    o: ["WhatsApp", "Instagram", "Reddit", "College group", "Friend", "Other"], why: "Channel data for GTM.", chart: "Support", show: ["bar", "none"] },
+  { id: "E7", sec: "Optional extras", t: "Would you book experiences in the app or on the spot?", type: "mc", req: false, core: false, match: "on the spot",
+    o: ["App", "On the spot", "Depends"], why: "Backs commission revenue (A5).", chart: "Support", show: ["bar", "none"] },
+];
+const SECS = { mc: 7, dropdown: 7, "mc-img": 8, scale: 6, cb: 10, para: 25, short: 10, grid: 20, "short×4": 40 };
+const TYPE = { mc: "Multiple choice", dropdown: "Dropdown", "mc-img": "Multiple choice + images", scale: "Linear scale 1–5", cb: "Checkboxes", para: "Paragraph", short: "Short answer", grid: "Multiple-choice grid", "short×4": "4 short answers" };
+
+// per-viewer state: kept questions + chart choice (convenience only)
+const store = {
+  get() { try { return JSON.parse(localStorage.getItem("tripdna-survey") || "{}"); } catch { return {}; } },
+  set(v) { try { localStorage.setItem("tripdna-survey", JSON.stringify(v)); } catch {} },
+};
+let state = store.get();
+Q.forEach(q => { if (!state[q.id]) state[q.id] = { keep: q.core, show: q.show[0] }; });
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+function renderQs() {
+  let html = "", lastSec = "";
+  Q.forEach(q => {
+    if (q.sec !== lastSec) { html += `<h2>${esc(q.sec)}</h2>`; lastSec = q.sec; }
+    const st = state[q.id];
+    html += `<article class="q ${st.keep ? "" : "off"}" data-id="${q.id}">
+      <header><div><span class="num">${q.id}</span><span class="t">${esc(q.t)}</span>
+        <div class="tags"><span class="tag">${TYPE[q.type]}</span>${q.req ? '<span class="tag req">required</span>' : '<span class="tag">optional</span>'}${q.key ? '<span class="tag req">key chart</span>' : ""}${q.opts ? `<span class="tag">${esc(q.opts)}</span>` : ""}</div></div>
+        <label class="keep"><input type="checkbox" ${st.keep ? "checked" : ""} data-keep="${q.id}"> Keep</label></header>
+      ${q.o.length ? `<ol>${q.o.map(o => `<li>${esc(o)}</li>`).join("")}</ol>` : ""}
+      <div class="why"><b>Why:</b> ${esc(q.why)} · <b>Feeds:</b> ${esc(q.chart)}</div>
+      <div class="show">Show as <select data-show="${q.id}">${q.show.map(s => `<option value="${s}" ${st.show === s ? "selected" : ""}>${{ bar: "Bar chart", kpi: "Big number", quotes: "Quote cards", none: "Not on a slide" }[s]}</option>`).join("")}</select></div>
+    </article>`;
+  });
+  document.getElementById("qs").innerHTML = html;
+  updateStats();
+}
+function updateStats() {
+  const kept = Q.filter(q => state[q.id].keep);
+  const sec = kept.reduce((a, q) => a + SECS[q.type], 0);
+  document.getElementById("st-n").textContent = kept.length;
+  document.getElementById("st-t").textContent = Math.floor(sec / 60) + ":" + String(sec % 60).padStart(2, "0");
+  document.getElementById("st-c").textContent = kept.filter(q => state[q.id].show !== "none").length;
+}
+document.getElementById("qs").addEventListener("change", e => {
+  const k = e.target.dataset.keep, s = e.target.dataset.show;
+  if (k) { state[k].keep = e.target.checked; e.target.closest(".q").classList.toggle("off", !e.target.checked); }
+  if (s) state[s].show = e.target.value;
+  store.set(state); updateStats();
+});
+renderQs();
+
+// tabs
+document.querySelectorAll("nav.tabs button").forEach(b => b.addEventListener("click", () => {
+  document.querySelectorAll("nav.tabs button").forEach(x => x.setAttribute("aria-selected", x === b));
+  document.querySelectorAll("[data-panel]").forEach(p => p.hidden = p.dataset.panel !== b.dataset.tab);
+}));
+const copy = (id, btn) => { const t = document.getElementById(id); navigator.clipboard?.writeText(t.value).then(() => { btn.textContent = "Copied ✓"; setTimeout(() => btn.textContent = "Copy", 1500); }).catch(() => { t.select(); }); };
+document.getElementById("copywa").onclick = e => copy("wa", e.target);
+document.getElementById("copyjson").onclick = e => copy("json", e.target);
+
+// ===== CSV parsing =====
+function parseCSV(text) {
+  const rows = []; let row = [], f = "", q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) { if (c === '"') { if (text[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += c; }
+    else if (c === '"') q = true;
+    else if (c === ",") { row.push(f); f = ""; }
+    else if (c === "\n" || c === "\r") { if (c === "\r" && text[i + 1] === "\n") i++; row.push(f); rows.push(row); row = []; f = ""; }
+    else f += c;
+  }
+  if (f || row.length) { row.push(f); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim()));
+}
+
+// ===== charts =====
+const tip = document.getElementById("tip");
+function bindTips(root) {
+  root.querySelectorAll("[data-tip]").forEach(el => {
+    el.addEventListener("pointerenter", e => { tip.innerHTML = el.dataset.tip; tip.style.opacity = 1; });
+    el.addEventListener("pointermove", e => { tip.style.left = Math.min(e.clientX + 14, innerWidth - 270) + "px"; tip.style.top = (e.clientY + 14) + "px"; });
+    el.addEventListener("pointerleave", () => tip.style.opacity = 0);
+  });
+}
+function hbar(el, rows, { labelW = 190, w = 520, bh = 16, gap = 10 } = {}) {
+  const plotW = w - labelW - 70, h = rows.length * (bh + gap) + 6;
+  const c = getComputedStyle(document.documentElement).getPropertyValue("--s1").trim();
+  let s = `<svg viewBox="0 0 ${w} ${h}" role="img"><line class="ax" x1="${labelW}" x2="${labelW}" y1="0" y2="${h - 4}"/>`;
+  rows.forEach((r, i) => {
+    const y = i * (bh + gap) + 4, bw = Math.max(2, r.v / 100 * plotW);
+    s += `<g data-tip="<b>${esc(r.k)}</b>${r.v}% · ${r.c} of ${r.n}"><rect x="0" y="${y - gap / 2}" width="${w}" height="${bh + gap}" fill="transparent"/>`;
+    s += `<text x="${labelW - 10}" y="${y + bh / 2 + 4.5}" text-anchor="end" font-size="12.5">${esc(r.k)}</text>`;
+    s += `<path d="M${labelW},${y}h${bw - 4}a4,4 0 0 1 4,4v${bh - 8}a4,4 0 0 1 -4,4h${-(bw - 4)}z" fill="${c}"/>`;
+    s += `<text x="${labelW + bw + 8}" y="${y + bh / 2 + 4.5}" font-size="12.5" font-weight="700">${r.v}%</text></g>`;
+  });
+  el.innerHTML = s + "</svg>"; bindTips(el);
+}
+
+let isSample = false;
+function build() {
+  const rows = parseCSV(document.getElementById("csv").value);
+  if (rows.length < 2) { document.getElementById("summary").innerHTML = '<p class="note">No responses found in the CSV.</p>'; return; }
+  const head = rows[0], data0 = rows.slice(1);
+  const col = q => head.findIndex(h => h.toLowerCase().includes(q.match.toLowerCase()));
+  const Qb = id => Q.find(q => q.id === id);
+  let data = data0;
+  const c1 = col(Qb("Q1"));
+  if (document.getElementById("onlyJp").checked && c1 >= 0) data = data0.filter(r => /visited Japan|planning a trip/.test(r[c1]));
+  const N = data.length;
+  const pct = c => Math.round(c / Math.max(N, 1) * 100);
+  // counts: checkbox cells contain several options; match each known option text inside the cell
+  function dist(q) {
+    const ci = col(q); if (ci < 0) return null;
+    const answered = data.filter(r => (r[ci] || "").trim());
+    const n = answered.length;
+    const rows = q.o.map((o, i) => {
+      const c = answered.filter(r => q.type === "cb" ? r[ci].includes(o) : r[ci].trim().startsWith(o)).length;
+      return { k: q.short ? q.short[i] : o, c, n, v: Math.round(c / Math.max(n, 1) * 100) };
+    });
+    return { rows, n };
+  }
+  const out = { charts: [] }, box = document.getElementById("charts"); box.innerHTML = "";
+  const addChart = (q, title, rows, headline, sort = true) => {
+    const r = sort ? [...rows].sort((a, b) => b.v - a.v) : rows;
+    const div = document.createElement("div"); div.className = "cc";
+    div.innerHTML = `<h3>${esc(title)}</h3><p class="note">${q.id} · n = ${r[0]?.n ?? 0}</p><div class="chart"></div><p class="hl">${headline}</p>`;
+    box.appendChild(div); hbar(div.querySelector(".chart"), r);
+    return r;
+  };
+  // summary KPIs
+  const c2 = col(Qb("Q2")), c14 = col(Qb("Q14"));
+  const countries = c2 >= 0 ? new Set(data.map(r => r[c2]).filter(Boolean)).size : 0;
+  const vp = c1 >= 0 ? pct(data.filter(r => /visited Japan|planning a trip/.test(r[c1])).length) : 0;
+  const wait = c14 >= 0 ? data.filter(r => /@/.test(r[c14] || "")).length : 0;
+  document.getElementById("summary").innerHTML = `<div><b>${N}</b><span>responses</span></div><div><b>${countries}</b><span>countries</span></div><div><b>${vp}%</b><span>visited or planning</span></div><div><b>${wait}</b><span>waitlist emails</span></div>`;
+  Object.assign(out, { n: N, countries, visitedOrPlanning: vp, waitlist: wait, sample: isSample });
+  // integrity screen: impossible or bot-like patterns block the "for the deck" JSON
+  const flags = [];
+  ["Q5", "Q10"].forEach(id => {
+    const ci = col(Qb(id)); if (ci < 0) return;
+    const picks = data.map(r => Qb(id).o.filter(o => (r[ci] || "").includes(o)).length);
+    const over = picks.filter(n => n > 3).length;
+    if (over) flags.push(`${id}: ${pct(over)}% ticked more than 3 options in a "pick up to 3" question (add response validation)`);
+    Qb(id).o.forEach(o => { const c = data.filter(r => (r[ci] || "").includes(o)).length; if (N > 20 && c === N) flags.push(`${id}: every respondent ticked "${o.slice(0, 40)}…"`); });
+  });
+  const sig = data.map(r => r.slice(1).join("|")), dup = sig.length - new Set(sig).size;
+  if (dup > N * 0.05) flags.push(`${pct(dup)}% of rows are exact duplicates`);
+    const intEl = document.getElementById("integrity");
+  intEl.hidden = !flags.length;
+  intEl.innerHTML = flags.length ? "⚠ <b>Data-quality flags. Don't put these numbers in the deck until they're resolved:</b><br>" + flags.map(esc).join("<br>") : "";
+  out.integrityFlags = flags;
+
+  const d5 = dist(Qb("Q5"));
+  if (d5) { const r = addChart(Qb("Q5"), "Top worries", d5.rows, `#1 worry: <b>${esc([...d5.rows].sort((a, b) => b.v - a.v)[0].k)}</b>`);
+    out.charts.push({ title: "Top worries", rows: r.slice(0, 5), headline: `#1: ${r[0].k} (${r[0].v}%)` }); }
+  const d12 = dist(Qb("Q12"));
+  if (d12) { const pay = 100 - d12.rows[0].v; addChart(Qb("Q12"), "Willingness to pay (Trip Pass)", d12.rows, `<b>${pay}%</b> would pay something`, false);
+    out.charts.push({ title: "Would pay for a Trip Pass", rows: d12.rows, headline: `${pay}% would pay something` }); }
+  const d8 = dist(Qb("Q8"));
+  if (d8) { const top2 = d8.rows[3].v + d8.rows[4].v;
+    addChart(Qb("Q8"), "Interest in local culture with a host", d8.rows.map((r, i) => ({ ...r, k: ["1 Not interested", "2", "3", "4", "5 Very interested"][i] })), `<b>${top2}%</b> rate 4–5 (top-2 box)`, false);
+    const d9 = dist(Qb("Q9")); const share = d9 ? d9.rows[0].v + d9.rows[1].v : null;
+    out.charts.push({ title: "Want local culture with a host", rows: [{ k: "Rate 4–5", v: top2, c: 0, n: d8.n }, ...(share !== null ? [{ k: "Would share own culture", v: share, c: 0, n: d9.n }] : [])], headline: `${top2}% very interested` }); }
+  [["Q6", "How often plans break"], ["Q7", "Apps used per trip"], ["Q10", "Most wanted features"], ["Q11", "Preferred app style"], ["Q2", "Home country"], ["Q4", "Trip purpose"]].forEach(([id, t]) => {
+    const q = Qb(id); if (state[id].show === "none") return; const d = dist(q); if (!d) return;
+    let hl = "";
+    if (id === "Q6") hl = `<b>${d.rows[2].v + d.rows[3].v}%</b> say plans break a few times per trip or more`;
+    if (id === "Q7") hl = `<b>${d.rows[2].v + d.rows[3].v}%</b> use 5 or more apps`;
+    if (id === "Q10") hl = `Top: <b>${esc([...d.rows].sort((a, b) => b.v - a.v)[0].k)}</b>`;
+    addChart(q, t, d.rows, hl, ["Q10", "Q2", "Q4"].includes(id));
+  });
+  // quotes
+  const c13 = col(Qb("Q13"));
+  if (c13 >= 0) { const qs = [...new Set(data.map(r => (r[c13] || "").trim()).filter(x => x.length > 15))].slice(0, 8);
+    if (qs.length) { const div = document.createElement("div"); div.className = "cc"; div.innerHTML = `<h3>In their words (pick 2–3)</h3>${qs.map(x => `<p>"${esc(x)}"</p>`).join("")}`; box.appendChild(div); out.quotes = qs.slice(0, 3); } }
+  document.getElementById("json").value = flags.length ? "// Blocked: resolve the data-quality flags above first." : "const SURVEY = " + JSON.stringify(out, null, 1) + ";";
+  document.getElementById("sampleWarn").hidden = !isSample;
+}
+document.getElementById("build").onclick = build;
+document.getElementById("file").onchange = e => { const f = e.target.files[0]; if (!f) return; f.text().then(t => { document.getElementById("csv").value = t; isSample = false; build(); }); };
+document.getElementById("csv").addEventListener("input", () => isSample = false);
+
+
+// ===== Simulated results (data/survey_simulated.json, embedded so it works offline) =====
+const SIM = {"label": "Simulated responses", "n": 407, "note": "Simulated data (n=407), generated from the response distributions in form-config.json to model our expected audience (mostly young Indian travellers). It is NOT a field survey; use it to rehearse the analysis and show the method. Counts transcribed from the Google Forms summary charts in Form_responses/.", "questions": {"Q1": {"title": "Been to Japan / planning?", "n": 407, "rows": [{"k": "Visited Japan", "c": 37, "v": 9.1}, {"k": "Planning, next 12 months", "c": 4, "v": 1.0}, {"k": "Someday", "c": 216, "v": 53.1}, {"k": "Travel abroad, not Japan", "c": 73, "v": 17.9}, {"k": "Don't travel abroad", "c": 77, "v": 18.9}]}, "Q2": {"title": "Home country", "n": 407, "rows": [{"k": "India", "c": 402, "v": 98.8}, {"k": "Southeast Asia", "c": 5, "v": 1.2}]}, "Q3": {"title": "Age", "n": 407, "rows": [{"k": "Under 18", "c": 69, "v": 17.0}, {"k": "18–24", "c": 183, "v": 45.0}, {"k": "25–34", "c": 90, "v": 22.1}, {"k": "35–44", "c": 37, "v": 9.1}, {"k": "45–54", "c": 12, "v": 2.9}, {"k": "55+", "c": 16, "v": 3.9}]}, "Q4": {"title": "Main reason for the trip", "n": 407, "rows": [{"k": "Holiday", "c": 297, "v": 73.0}, {"k": "Study / exchange", "c": 37, "v": 9.1}, {"k": "Business", "c": 33, "v": 8.1}, {"k": "Friends / family", "c": 12, "v": 2.9}, {"k": "Events", "c": 8, "v": 2.0}, {"k": "Other", "c": 20, "v": 4.9}]}, "Q5": {"title": "Top worries (multi-select)", "n": 406, "rows": [{"k": "Planning / too many apps", "c": 305, "v": 75.1}, {"k": "Language", "c": 297, "v": 73.2}, {"k": "Cost", "c": 252, "v": 62.1}, {"k": "Etiquette", "c": 240, "v": 59.1}, {"k": "Getting around", "c": 228, "v": 56.2}, {"k": "Food / dietary", "c": 199, "v": 49.0}, {"k": "Plans going wrong", "c": 175, "v": 43.1}, {"k": "Safety & emergencies", "c": 118, "v": 29.1}, {"k": "Other", "c": 98, "v": 24.1}, {"k": "Only touristy places", "c": 77, "v": 19.0}]}, "Q6": {"title": "How often plans break", "n": 407, "rows": [{"k": "Never", "c": 8, "v": 2.0}, {"k": "Once per trip", "c": 37, "v": 9.1}, {"k": "A few times per trip", "c": 114, "v": 28.0}, {"k": "Almost every day", "c": 171, "v": 42.0}, {"k": "Don't usually plan", "c": 77, "v": 18.9}]}, "Q7": {"title": "Apps used per trip", "n": 407, "rows": [{"k": "1–2", "c": 289, "v": 71.0}, {"k": "3–4", "c": 90, "v": 22.1}, {"k": "5–6", "c": 20, "v": 4.9}, {"k": "7 or more", "c": 0, "v": 0.0}, {"k": "Not sure", "c": 8, "v": 2.0}]}, "Q8": {"title": "Interest in local culture with a host (1–5)", "n": 407, "rows": [{"k": "1 Not interested", "c": 8, "v": 2.0}, {"k": "2", "c": 0, "v": 0.0}, {"k": "3", "c": 4, "v": 1.0}, {"k": "4", "c": 57, "v": 14.0}, {"k": "5 Very interested", "c": 338, "v": 83.0}]}, "Q9": {"title": "Would share own culture", "n": 407, "rows": [{"k": "Yes, I'd love that", "c": 252, "v": 61.9}, {"k": "Maybe, if easy", "c": 130, "v": 31.9}, {"k": "Probably not", "c": 20, "v": 4.9}, {"k": "No", "c": 5, "v": 1.2}]}, "Q10": {"title": "Most helpful features (multi-select)", "n": 407, "rows": [{"k": "All in one app", "c": 407, "v": 100.0}, {"k": "Self-fixing plan", "c": 387, "v": 95.1}, {"k": "Hidden local spots", "c": 346, "v": 85.0}, {"k": "Student / disability discounts", "c": 346, "v": 85.0}, {"k": "Verified hosts & guides", "c": 309, "v": 75.9}, {"k": "One-tap SOS", "c": 309, "v": 75.9}, {"k": "Meet locals & travellers", "c": 281, "v": 69.0}, {"k": "Etiquette + stories", "c": 265, "v": 65.1}]}, "Q11": {"title": "Preferred app style", "n": 407, "rows": [{"k": "Vibrant", "c": 269, "v": 66.1}, {"k": "Simple", "c": 118, "v": 29.0}, {"k": "Colour-blind safe", "c": 20, "v": 4.9}, {"k": "No preference", "c": 0, "v": 0.0}]}, "Q12": {"title": "Would pay for a Trip Pass", "n": 407, "rows": [{"k": "Free only", "c": 134, "v": 32.9}, {"k": "≤ ¥500 / 7d", "c": 61, "v": 15.0}, {"k": "¥500–1,000 / 7d", "c": 85, "v": 20.9}, {"k": "¥1,000–1,500 / 14d", "c": 90, "v": 22.1}, {"k": "> ¥1,500", "c": 37, "v": 9.1}]}, "E1": {"title": "Trip length", "n": 407, "rows": [{"k": "1–4 days", "c": 85, "v": 20.9}, {"k": "5–7 days", "c": 228, "v": 56.0}, {"k": "8–14 days", "c": 49, "v": 12.0}, {"k": "15+ days", "c": 45, "v": 11.1}]}, "E2": {"title": "Budget per person (excl. flights)", "n": 407, "rows": [{"k": "< ₹50k (< ¥90k)", "c": 85, "v": 20.9}, {"k": "₹50k–1L (¥90–180k)", "c": 167, "v": 41.0}, {"k": "₹1–2L (¥180–360k)", "c": 106, "v": 26.0}, {"k": "> ₹2L (> ¥360k)", "c": 49, "v": 12.0}]}, "E4": {"title": "Apps used or planned (multi-select)", "n": 407, "rows": [{"k": "Google Translate", "c": 407, "v": 100.0}, {"k": "Google Maps", "c": 399, "v": 98.0}, {"k": "JNTO app", "c": 346, "v": 85.0}, {"k": "Airbnb", "c": 330, "v": 81.1}, {"k": "Booking.com", "c": 265, "v": 65.1}, {"k": "Tripadvisor", "c": 142, "v": 34.9}, {"k": "NAVITIME", "c": 94, "v": 23.1}, {"k": "Klook", "c": 49, "v": 12.0}, {"k": "Wanderlog", "c": 37, "v": 9.1}]}, "E7": {"title": "Book experiences in app or on the spot", "n": 407, "rows": [{"k": "In the app, in advance", "c": 191, "v": 46.9}, {"k": "On the spot", "c": 122, "v": 30.0}, {"k": "Depends on the activity", "c": 94, "v": 23.1}]}}, "E3_grid_approx": {"note": "read from the chart image, ±3", "scale": ["1", "2", "3", "4", "5"], "Navigation & trains": [8, 16, 20, 118, 238], "Planning & research": [117, 27, 52, 117, 89], "Etiquette & customs": [185, 25, 19, 128, 45], "Safety & emergencies": [84, 45, 141, 93, 40]}, "headlines": {"top_worry": "Planning / too many apps 75.1%, language 73.2%", "culture_top2": 97.1, "share_own_culture": 93.9, "would_pay": 67.1, "plans_break_few_plus": 70.0, "book_in_app": 46.9, "vibrant": 66.1, "trip_5_7_days": 56.0}};
+(function () {
+  document.getElementById("sim-note").textContent = SIM.note;
+  const H = SIM.headlines;
+  document.getElementById("sim-kpi").innerHTML = [[SIM.n, "simulated responses"], [H.culture_top2 + "%", "rate local-host culture 4–5"], [H.would_pay + "%", "would pay for a Trip Pass"], [H.plans_break_few_plus + "%", "plans break a few times+"], [H.book_in_app + "%", "would book in-app"]]
+    .map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join("");
+  const order = { Q5: 1, Q12: 0, Q8: 0, Q9: 0, Q10: 1, Q6: 0, Q7: 0, Q11: 0, Q1: 0, Q3: 0, Q4: 1, E1: 0, E2: 0, E4: 1, E7: 0, Q2: 1 };
+  const box = document.getElementById("sim-charts");
+  Object.keys(order).forEach(id => {
+    const q = SIM.questions[id]; if (!q) return;
+    const rows = q.rows.map(r => ({ k: r.k, c: r.c, n: q.n, v: Math.round(r.v) }));
+    if (order[id]) rows.sort((a, b) => b.v - a.v);
+    const div = document.createElement("div"); div.className = "cc";
+    div.innerHTML = `<h3>${esc(q.title)}</h3><p class="note">${id} · n = ${q.n}${/multi/.test(q.title) ? " · % of respondents (multi-select)" : ""}</p><div class="chart"></div>`;
+    box.appendChild(div); hbar(div.querySelector(".chart"), rows);
+  });
+  const g = SIM.E3_grid_approx;
+  document.getElementById("sim-grid").innerHTML = "<table><thead><tr><th>Aspect</th>" + g.scale.map(x => `<th>${x}</th>`).join("") + "<th>4–5</th></tr></thead><tbody>" +
+    Object.keys(g).filter(k => Array.isArray(g[k]) && k !== "scale").map(k => { const t = g[k].reduce((a, b) => a + b, 0);
+      return `<tr><td>${k}</td>${g[k].map(v => `<td>${v}</td>`).join("")}<td><b>${Math.round((g[k][3] + g[k][4]) / t * 100)}%</b></td></tr>`; }).join("") + "</tbody></table>";
+})();
+// fake data for previewing only (clearly flagged)
+document.getElementById("sample").onclick = () => {
+  const qs = Q.filter(q => q.core), pick = a => a[Math.floor(Math.random() * a.length)];
+  const head = ["Timestamp", ...qs.map(q => q.t)];
+  const lines = [head];
+  for (let i = 0; i < 60; i++) lines.push(["", ...qs.map(q => {
+    if (q.type === "cb") return [...q.o].sort(() => Math.random() - .5).slice(0, 1 + Math.floor(Math.random() * 3)).join(", ");
+    if (q.type === "para") return Math.random() < .3 ? "Knowing what to do when a train is late and I miss my booking" : "";
+    if (q.type === "short") return Math.random() < .25 ? "sample@example.com" : "";
+    return pick(q.o);
+  })]);
+  document.getElementById("csv").value = lines.map(r => r.map(x => `"${String(x).replace(/"/g, '""')}"`).join(",")).join("\n");
+  isSample = true; build();
+};
+</script>
+</body>
+</html>

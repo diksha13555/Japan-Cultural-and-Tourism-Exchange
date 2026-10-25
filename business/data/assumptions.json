@@ -1,0 +1,22 @@
+{
+  "A1_india_spend_pp": 228782,
+  "A2_digital_share": 0.7,
+  "A3_china_2026_factor": 0.5,
+  "A4_y3_penetration": 0.01,
+  "A5_book_rate": 0.3,
+  "A6_basket_yen": 15000,
+  "A7_commission": 0.12,
+  "A8_pass_conv": 0.05,
+  "A9_pass_price": 800,
+  "A10_ads_aff_per_user": 50,
+  "A11_partners_y3": 300,
+  "A12_partner_sub_month": 5000,
+  "A13_guides_meetups_per_user": 30,
+  "A14_cac_partner": 150,
+  "A15_cac_paid": 600,
+  "A16_partner_mix": 0.6,
+  "A17_gross_margin": 0.8,
+  "A18_trips_per_user_3y": 1.6,
+  "A19_fixed_cost_y3": 90000000.0,
+  "A20_yen_per_usd": 150
+}

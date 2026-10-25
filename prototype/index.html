@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trip DNA · Prototype</title>
+<meta name="description" content="Trip DNA: plan, repair and live your day in Japan. Hackathon prototype with sample data.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=DM+Mono:wght@400;500&family=M+PLUS+Rounded+1c:wght@700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="mode-leisure">
+
+<!-- ─────────── Language picker ─────────── -->
+<section id="splash" aria-label="Choose your language">
+  <div class="splash-scene" id="splashScene"></div>
+  <header class="splash-head">
+    <span class="mark" aria-hidden="true"><i>TD</i><b>01</b></span>
+    <span class="brand-word">Trip DNA</span>
+  </header>
+  <div class="splash-copy">
+    <p class="eyebrow">Tokyo · 東京 · Day 1</p>
+    <h1 class="greet"><span id="greet">Welcome</span></h1>
+    <p class="splash-sub">Choose your language. Everything after this speaks it, reads signs aloud in it, and books in it.</p>
+    <div class="lang-grid" id="langGrid" role="list"></div>
+  </div>
+</section>
+
+<div id="shoji" aria-hidden="true"><div class="panel l"></div><div class="panel r"></div></div>
+
+<!-- ─────────── App ─────────── -->
+<div id="app" hidden>
+  <header class="topbar">
+    <div class="brand">
+      <span class="mark sm" aria-hidden="true"><i>TD</i><b>01</b></span>
+      <div><b>Trip DNA</b><small id="tagline" data-i18n="tag.leisure">Less worry. More culture.</small></div>
+    </div>
+    <nav class="tabs" role="tablist">
+      <button class="tab on" role="tab" data-view="itin" data-i18n="tab.itinerary">Itinerary</button>
+      <button class="tab" role="tab" data-view="feed" data-i18n="tab.feed">Tabi Feed</button>
+    </nav>
+    <div class="modeswitch" id="modeSwitch" role="radiogroup" aria-label="Why are you in Japan?">
+      <span class="pill" aria-hidden="true"></span>
+      <button data-mode="leisure" class="on" role="radio" aria-checked="true" data-i18n="mode.leisure">Leisure</button>
+      <button data-mode="business" role="radio" aria-checked="false" data-i18n="mode.business">Business</button>
+      <button data-mode="study" role="radio" aria-checked="false" data-i18n="mode.study">Study</button>
+    </div>
+    <div class="clock-wrap">
+      <span class="clock" id="clock" title="Trip clock"><span class="dot"></span><span id="clockTime">08:20</span></span>
+      <button class="ff-btn" id="ffBtn" disabled title="Weave your day first"><svg class="ic" viewBox="0 0 24 24"><path d="M4 6l8 6-8 6zM12 6l8 6-8 6z"/></svg> 18:34</button>
+    </div>
+    <button class="langbtn" id="langBtn" title="Change language"><svg class="ic" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg><span id="langCode">EN</span></button>
+  </header>
+
+  <main>
+    <!-- Itinerary view -->
+    <section id="view-itin" class="view on">
+      <div class="col-left" id="colLeft">
+        <!-- Plan form -->
+        <div id="planForm" class="plan-form">
+          <p class="eyebrow">Day 1 · 1日目</p>
+          <h2 data-i18n="form.title">Plan your first day</h2>
+          <p class="lede" data-i18n="form.sub">A few quick questions, one at a time. Tap an answer to move on.</p>
+          <div class="wz-progress" aria-hidden="true"><span class="track"><i id="wzBar"></i></span><span id="wzCount">1 / 9</span></div>
+          <ol class="wz-answers" id="wzAnswers" aria-label="Your answers"></ol>
+          <div class="wz-stage" id="wzStage" aria-live="polite"></div>
+        </div>
+
+        <!-- Loader -->
+        <div id="loader" class="loader" hidden>
+          <div class="helix" id="helix" aria-hidden="true"></div>
+          <h3 data-i18n="load.title">Weaving your Trip DNA</h3>
+          <ul class="load-lines" id="loadLines"></ul>
+        </div>
+
+        <!-- Timeline -->
+        <div id="timeline" class="timeline" hidden></div>
+      </div>
+
+      <div class="col-map">
+        <div class="map-wrap" id="mapWrap">
+          <svg id="map" role="img" aria-label="Illustrated map of Tokyo"></svg>
+          <div class="map-search" id="mapSearch">
+            <div class="search-box">
+              <span class="ico" data-ic="search"></span>
+              <input id="searchInput" type="text" autocomplete="off" data-i18n-ph="map.search" placeholder="Search a place in Tokyo">
+            </div>
+            <ul class="suggest" id="suggest" role="listbox"></ul>
+          </div>
+          <div class="dest-card" id="destCard" hidden>
+            <div class="dc-body">
+              <p class="eyebrow" id="dcArea">Shibuya</p>
+              <h3 id="dcName">Shibuya Sky</h3>
+              <p class="ja" id="dcJa">渋谷スカイ</p>
+              <p class="dc-note" id="dcNote"></p>
+              <button class="btn primary" id="lockBtn"><span class="ico" data-ic="lock"></span><span data-i18n="map.lock">Lock for 14:00</span></button>
+            </div>
+            <div class="hanko" id="hanko" aria-hidden="true"><span>決定</span></div>
+          </div>
+          <div class="map-tag">Sample data · map illustrated from real coordinates</div>
+        </div>
+        <div class="foryou" id="forYou">
+          <div class="fy-head"><h3><span data-i18n="foryou">For you</span> <em id="fyMode">· Leisure</em></h3></div>
+          <div class="fy-rail" id="fyRail"></div>
+        </div>
+
+        <!-- Food drawer (covers the map column) -->
+        <aside id="foodDrawer" class="drawer" inert>
+          <div class="drawer-head">
+            <div>
+              <p class="eyebrow">Lunch · 12:15 · near Senso-ji</p>
+              <h2 data-i18n="food.title">What are you craving?</h2>
+            </div>
+            <button class="icon-btn" id="foodClose" aria-label="Close"><span class="ico" data-ic="x"></span></button>
+          </div>
+          <div class="cuisines" id="cuisines"></div>
+          <div class="food-grid" id="foodGrid"></div>
+        </aside>
+
+        <!-- Disruption sheet (covers the map column) -->
+        <aside id="disPanel" class="drawer dis" inert>
+          <div class="drawer-head">
+            <div>
+              <p class="eyebrow alert"><span class="ico" data-ic="alert"></span> 18:34 · Shinjuku Station</p>
+              <h2 data-i18n="dis.title">Get to your ryokan for dinner</h2>
+              <p class="lede">Dinner is at <b>20:30</b>. Here is every way to still make it, side by side.</p>
+            </div>
+            <button class="icon-btn" id="disClose" aria-label="Close"><span class="ico" data-ic="x"></span></button>
+          </div>
+          <div class="gantt" id="gantt"></div>
+          <div class="dis-foot">
+            <p id="disSummary">Pick an option to see what changes.</p>
+            <button class="btn primary" id="rebookBtn" disabled><span class="ico" data-ic="check"></span><span data-i18n="dis.rebook">Rebook</span></button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Feed view -->
+    <section id="view-feed" class="view feed">
+      <aside class="feed-left">
+        <div class="panel-card wallet">
+          <h3 data-i18n="feed.wallet">Your coupons</h3>
+          <div class="wallet-count"><b id="couponCount">1</b><span>active</span></div>
+          <ul id="couponList"></ul>
+        </div>
+        <div class="panel-card">
+          <h3 data-i18n="feed.trending">Trending</h3>
+          <ul class="tags">
+            <li>#Mottainai <small>もったいない</small></li><li>#Chanoyu <small>茶の湯</small></li>
+            <li>#HinaMatsuri <small>雛祭り</small></li><li>#Kimono <small>着物</small></li><li>#Ikigai <small>生き甲斐</small></li>
+          </ul>
+        </div>
+      </aside>
+      <div class="feed-main">
+        <div class="composer" id="composer">
+          <div class="avatar you">You</div>
+          <div class="comp-body">
+            <label class="sr" for="compText" data-i18n="feed.compose">Share a moment</label>
+            <textarea id="compText" rows="2">First ramen in Tokyo, ordered from an English ticket machine. Didn't need a single word of Japanese 🍜</textarea>
+            <div class="comp-media" id="compMedia"></div>
+            <div class="comp-actions">
+              <span class="comp-hint"><span class="ico" data-ic="gift"></span> Posting unlocks a partner reward</span>
+              <button class="btn primary" id="postBtn"><span class="ico" data-ic="send"></span><span data-i18n="feed.post">Post</span></button>
+            </div>
+          </div>
+        </div>
+        <div id="posts"></div>
+      </div>
+      <aside class="feed-right">
+        <div class="panel-card">
+          <h3 data-i18n="feed.locals">Locals open to exchange</h3>
+          <ul class="locals" id="locals"></ul>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <!-- Booking sheet -->
+  <div class="modal" id="bookModal" hidden>
+    <div class="modal-card book" role="dialog" aria-modal="true" aria-labelledby="bookTitle">
+      <div class="book-head" id="bookHead"></div>
+      <div class="book-body" id="bookBody">
+        <div class="field"><label data-i18n="book.time">Time</label><div class="seg small" id="slotSeg"><button data-v="12:00">12:00</button><button data-v="12:15" class="on">12:15</button><button data-v="12:30">12:30</button></div></div>
+        <div class="field"><label data-i18n="book.party">Guests</label><div class="stepper"><button id="pMinus" aria-label="Fewer guests">−</button><b id="party">1</b><button id="pPlus" aria-label="More guests">+</button></div></div>
+        <div class="field"><label data-i18n="book.pay">Payment</label>
+          <div class="pay-opts" id="payOpts">
+            <button data-v="restaurant" class="on"><span class="ico" data-ic="yen"></span><b data-i18n="book.payat">Pay at restaurant</b><small>Partner discount applied at the till</small></button>
+            <button data-v="now"><span class="ico" data-ic="card"></span><b data-i18n="book.paynow">Pay now · 5% off</b><small>Card, Apple Pay, UPI</small></button>
+          </div>
+        </div>
+        <div class="book-actions">
+          <button class="btn ghost" id="bookCancel">Back</button>
+          <button class="btn primary" id="bookConfirm"><span class="ico" data-ic="check"></span><span data-i18n="book.confirm">Confirm booking</span></button>
+        </div>
+      </div>
+      <div class="book-done" id="bookDone" hidden>
+        <div class="done-check"><span class="ico" data-ic="check"></span></div>
+        <h3>Table booked</h3>
+        <p id="bookDoneText"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Otoshidama envelope -->
+  <div class="modal" id="envModal" hidden>
+    <div class="env-stage">
+      <p class="env-title" data-i18n="env.title">You unlocked an otoshidama</p>
+      <button class="envelope" id="envelope" aria-label="Open the envelope">
+        <span class="coupon" id="coupon">
+          <small>Partner reward · Sample</small>
+          <b>¥500 off</b>
+          <span>Sumida river cruise or any partner café</span>
+          <code>TDNA-500</code>
+        </span>
+        <span class="env-back"></span>
+        <span class="env-front"><span class="knot"></span><span class="env-word">お年玉</span></span>
+        <span class="env-flap"></span>
+      </button>
+      <p class="env-tap" id="envTap" data-i18n="env.tap">Tap to open</p>
+      <button class="btn gold" id="envSave" hidden><span class="ico" data-ic="check"></span><span data-i18n="env.done">Save to wallet</span></button>
+    </div>
+  </div>
+
+  <div id="toasts" aria-live="polite"></div>
+
+  <div class="dock" id="dock" aria-label="Presenter controls">
+    <span class="dock-handle" title="Presenter controls"><span class="ico" data-ic="play"></span></span>
+    <button id="dockReset" title="Reset (R)"><span class="ico" data-ic="reset"></span><span data-i18n="dock.reset">Reset</span></button>
+    <button id="dockAuto" title="Autoplay the demo (A)"><span class="ico" data-ic="play"></span><span data-i18n="dock.auto">Autoplay</span></button>
+    <span class="keys">R · T · 1 2 3 · I F · A</span>
+  </div>
+</div>
+
+<canvas id="petals" aria-hidden="true"></canvas>
+<div id="fakePointer" aria-hidden="true">
+  <svg class="p-arrow" viewBox="0 0 24 24"><path d="M5 2.5v16.4l4.1-3.9 2.7 6.2 3-1.3-2.7-6.1h5.8z"/></svg>
+  <svg class="p-hand" viewBox="0 0 24 24"><path d="M9 3.6a1.5 1.5 0 0 1 3 0V10l.3-.1a1.5 1.5 0 0 1 2.6.9a1.5 1.5 0 0 1 2.5 1a1.5 1.5 0 0 1 2.5 1.1V17c0 2.8-2.2 5-5 5h-2.4c-1.7 0-3.2-.9-4.1-2.3L5.2 15a1.5 1.5 0 0 1 2.4-1.8L9 14.7z"/><path class="f" d="M12 10.2v3.6M14.9 11v2.8M17.4 12.2v2"/></svg>
+</div>
+<div id="beatBar" aria-hidden="true"><i></i></div>
+
+<script src="js/data.js"></script>
+<script src="js/art.js"></script>
+<script src="js/map.js"></script>
+<script src="js/app.js"></script>
+<script src="js/presenter.js"></script>
+</body>
+</html>

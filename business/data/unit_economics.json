@@ -1,0 +1,20 @@
+{
+  "arpu_per_trip": 660.0,
+  "cac_blended": 330.0,
+  "ltv": 844.8000000000001,
+  "ltv_cac": 2.56,
+  "contribution_first_trip": 198.0,
+  "take_rate_blended": 0.16786321162983767,
+  "breakeven_trip_users_per_year": 381818.1818181818,
+  "revenue_y3": {
+    "Booking commission": 101903400.0,
+    "Partner subscriptions & featured": 18000000,
+    "Trip Pass": 7548400.0,
+    "Ads & affiliate": 9435500.0,
+    "Guide & meetup fees": 5661300.0
+  },
+  "revenue_y3_total": 142548600.0,
+  "gmv_y3": 849195000.0,
+  "users_y3": 188710.0,
+  "fixed_cost_y3": 90000000.0
+}

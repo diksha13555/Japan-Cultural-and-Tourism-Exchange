@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Trip DNA — Film</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=DM+Sans:wght@400;500;700&family=Noto+Sans+JP:wght@500;700&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+<style>
+html,body{height:100%;margin:0;background:#07070a;overflow:hidden}
+body{display:grid;place-items:center}
+/* ===== Trip DNA film — every rule is scoped under #tdnaFilm so it can drop into the pitch deck ===== */
+#tdnaFilm{--ink:#F2ECDD;--torii:#D9123D;--sakura:#F4A6B8;--pink:#FF5B7E;--gold:#E8B33E;--leaf:#7DB765;--sky:#7FA8D8;--indigo:#1E3A5F;--night:#231815;
+  --theme:linear-gradient(90deg,#D9123D,#FF5B7E 22%,#E8B33E 45%,#7DB765 68%,#7FA8D8 88%,#9b8cff);
+  position:relative;width:min(100vw,177.78vh);aspect-ratio:16/9;max-height:100vh;container-type:inline-size;overflow:hidden;
+  background:#050507;color:var(--ink);font-family:'DM Sans',system-ui,sans-serif;user-select:none;-webkit-user-select:none;
+  outline:none;contain:layout paint;isolation:isolate}
+#tdnaFilm *{box-sizing:border-box}
+#tdnaFilm .tf-layer{position:absolute;inset:0}
+#tdnaFilm .tf-scene{position:absolute;inset:0;visibility:hidden;opacity:0;will-change:opacity}
+#tdnaFilm .tf-bd{position:absolute;inset:-4%;will-change:transform}
+#tdnaFilm .tf-bd img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+#tdnaFilm .tf-bd .tf-g{filter:grayscale(1) brightness(.42)}
+#tdnaFilm .tf-bd .tf-c{opacity:0;filter:brightness(.6) saturate(1.25);will-change:opacity}
+#tdnaFilm .tf-fr{position:absolute;left:50%;top:50%;overflow:hidden;border-radius:.45cqw;will-change:transform;
+  box-shadow:0 0 0 .32cqw rgba(245,240,232,.92),0 1.2cqw 4cqw rgba(0,0,0,.75),0 0 6cqw rgba(0,0,0,.45)}
+#tdnaFilm .tf-cam{position:absolute;inset:0;will-change:transform}
+#tdnaFilm .tf-cam img{position:absolute;inset:0;width:100%;height:100%;display:block}
+#tdnaFilm .tf-cam .tf-g{filter:grayscale(1) contrast(1.06)}
+#tdnaFilm .tf-cam .tf-c{opacity:0;will-change:opacity}
+#tdnaFilm .tf-cam .tf-c.tf-mask{-webkit-mask-image:radial-gradient(circle at var(--mx) var(--my),#000 calc(var(--mr) * 1%),transparent calc(var(--mr) * 1% + 22%));
+  mask-image:radial-gradient(circle at var(--mx) var(--my),#000 calc(var(--mr) * 1%),transparent calc(var(--mr) * 1% + 22%))}
+#tdnaFilm .tf-shine{position:absolute;inset:0;opacity:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.32) 50%,transparent 62%);will-change:transform,opacity;pointer-events:none}
+#tdnaFilm .tf-glow{position:absolute;border-radius:50%;translate:-50% -50%;pointer-events:none;will-change:opacity,transform;opacity:0}
+/* film grain + vignette + letterbox: shared, cheap (transform/opacity only) */
+#tdnaFilm .tf-grain{position:absolute;inset:-50%;background-size:22cqw;opacity:.16;pointer-events:none;will-change:transform,opacity;mix-blend-mode:normal}
+#tdnaFilm .tf-vig{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 50%,transparent 52%,rgba(0,0,0,.72) 100%);will-change:opacity}
+#tdnaFilm canvas.tf-petals{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#tdnaFilm .tf-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,#fff,rgba(255,236,246,.85) 40%,rgba(255,220,235,0) 75%);opacity:0;pointer-events:none;will-change:opacity}
+/* title card */
+#tdnaFilm .tf-title{position:absolute;inset:0;display:grid;place-content:center;text-align:center;visibility:hidden;opacity:0;will-change:opacity;
+  background:radial-gradient(120% 90% at 50% 42%,#3a2420 0%,#231815 50%,#140d0b 100%)}
+#tdnaFilm .tf-title .tf-aura{position:absolute;inset:-20%;background:conic-gradient(from 0deg,#D9123D55,#FF5B7E44,#E8B33E44,#7DB76544,#7FA8D844,#D9123D55);filter:blur(6cqw);opacity:.5;will-change:transform}
+#tdnaFilm .tf-title h2{position:relative;margin:0;font:400 10.5cqw/1 'Archivo Black',sans-serif;letter-spacing:.01em;color:var(--ink);
+  text-shadow:0 .5cqw 3cqw rgba(0,0,0,.45);will-change:transform,opacity}
+#tdnaFilm .tf-title h2 em{font-style:normal;color:var(--torii)}
+#tdnaFilm .tf-title .tf-tag{position:relative;margin:1.6cqw 0 0;font:700 3.4cqw 'DM Sans',sans-serif;color:var(--ink);letter-spacing:.01em;will-change:transform,opacity}
+#tdnaFilm .tf-title .tf-tag b{background:var(--theme);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+#tdnaFilm .tf-title .tf-jp{position:relative;margin:.9cqw 0 0;font:600 1.9cqw 'Shippori Mincho',serif;color:var(--sakura);opacity:.85;letter-spacing:.3em;will-change:opacity}
+#tdnaFilm .tf-title .tf-credit{position:absolute;left:0;right:0;bottom:8cqw;font:500 1.05cqw 'DM Sans',sans-serif;color:var(--ink);opacity:.45}
+#tdnaFilm .tf-title .tf-seal{position:relative;justify-self:center;margin-bottom:1.6cqw;width:5.4cqw;height:5.4cqw;border-radius:1cqw;display:grid;place-items:center;
+  background:var(--torii);color:#fff;font:800 3.2cqw 'Shippori Mincho',serif;box-shadow:0 .4cqw 2cqw rgba(217,18,61,.5);transform:rotate(-4deg);will-change:transform,opacity}
+/* subtitles + captions */
+#tdnaFilm .tf-subs{position:absolute;left:0;right:0;bottom:5.6cqw;display:grid;justify-items:center;pointer-events:none;z-index:6}
+#tdnaFilm .tf-sub{grid-area:1/1;align-self:end;max-width:78cqw;padding:.7cqw 1.8cqw .8cqw;border-radius:2cqw;background:rgba(10,10,14,.62);backdrop-filter:none;
+  font:700 2.15cqw/1.35 'DM Sans','Noto Sans JP',sans-serif;color:#fff;text-align:center;opacity:0;transform:translateY(.6cqw);will-change:opacity,transform;
+  box-shadow:0 .3cqw 1.6cqw rgba(0,0,0,.35)}
+#tdnaFilm .tf-sub small{display:block;font:700 1.05cqw 'DM Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:.2cqw}
+#tdnaFilm .tf-sub.tf-pa{background:rgba(30,30,34,.72);color:#d9d9d9;font-family:'Shippori Mincho',serif;font-weight:600;letter-spacing:.06em}
+#tdnaFilm .tf-sub.tf-pa small{color:#a6a6a6}
+#tdnaFilm .tf-sub.tf-app{background:rgba(242,236,221,.94);color:var(--night);border-left:.45cqw solid var(--torii)}
+#tdnaFilm .tf-sub.tf-app small{color:var(--torii)}
+#tdnaFilm .tf-sub.tf-girl{background:rgba(255,255,255,.92);color:var(--night);border-left:.45cqw solid var(--pink)}
+#tdnaFilm .tf-cap{position:absolute;left:50%;top:1.7cqw;z-index:6;display:flex;align-items:center;gap:1cqw;padding:.55cqw 1.6cqw .55cqw .55cqw;border-radius:3cqw;
+  background:rgba(35,24,21,.72);border:1px solid rgba(242,236,221,.18);font:700 1.55cqw 'DM Sans',sans-serif;color:#fff;white-space:nowrap;
+  opacity:0;transform:translate(-50%,-.6cqw);will-change:opacity,transform;pointer-events:none}
+#tdnaFilm .tf-cap i{font-style:normal;display:grid;place-items:center;width:2.6cqw;height:2.6cqw;border-radius:50%;font:800 1.5cqw 'Shippori Mincho',serif;color:#fff;
+  background:conic-gradient(#D9123D,#FF5B7E,#E8B33E,#7DB765,#7FA8D8,#D9123D)}
+#tdnaFilm .tf-cap b{background:linear-gradient(90deg,#FF5B7E,#F4A6B8 25%,#E8B33E 50%,#8DC774 75%,#7FA8D8);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent}
+/* colour meter: a hairline that fills with colour as the story does */
+#tdnaFilm .tf-meter{position:absolute;left:0;right:0;bottom:0;height:.32cqw;background:rgba(255,255,255,.08);z-index:7;pointer-events:none}
+#tdnaFilm .tf-meter span{position:absolute;inset:0 auto 0 0;width:100%;transform-origin:0 50%;transform:scaleX(0);will-change:transform;
+  background:linear-gradient(90deg,#8a8a8a 0%,#9a9a9a 34%,#D9123D 40%,#FF5B7E 52%,#E8B33E 64%,#7DB765 78%,#7FA8D8 92%,#9b8cff 100%)}
+/* controls */
+#tdnaFilm .tf-ui{position:absolute;left:0;right:0;bottom:0;z-index:8;padding:3.4cqw 1.6cqw 1.1cqw;display:flex;align-items:center;gap:1.1cqw;
+  background:linear-gradient(transparent,rgba(0,0,0,.66));opacity:0;transform:translateY(.8cqw);transition:opacity .35s ease,transform .35s ease}
+#tdnaFilm.tf-show-ui .tf-ui,#tdnaFilm.tf-paused .tf-ui,#tdnaFilm .tf-ui:focus-within{opacity:1;transform:none}
+#tdnaFilm .tf-btn{flex:none;display:grid;place-items:center;width:3.4cqw;height:3.4cqw;min-width:30px;min-height:30px;border:0;border-radius:50%;cursor:pointer;
+  background:rgba(255,255,255,.14);color:#fff;transition:background .2s,transform .2s}
+#tdnaFilm .tf-btn:hover{background:rgba(255,255,255,.28);transform:scale(1.08)}
+#tdnaFilm .tf-btn:focus-visible{outline:2px solid var(--sakura);outline-offset:2px}
+#tdnaFilm .tf-btn svg{width:46%;height:46%;fill:currentColor}
+#tdnaFilm .tf-btn.tf-main{width:4.2cqw;height:4.2cqw;background:var(--torii);color:#fff}
+#tdnaFilm .tf-btn.tf-main:hover{background:#ef1d4b}
+#tdnaFilm .tf-time{flex:none;font:700 max(1.25cqw,11px) 'DM Sans',sans-serif;color:#fff;opacity:.85;font-variant-numeric:tabular-nums;min-width:7.5em}
+#tdnaFilm .tf-scrub{position:relative;flex:1;height:2.4cqw;min-height:18px;cursor:pointer;display:flex;align-items:center;touch-action:none}
+#tdnaFilm .tf-scrub .tf-track{position:absolute;left:0;right:0;height:.42cqw;min-height:3px;border-radius:1cqw;background:rgba(255,255,255,.22);overflow:hidden}
+#tdnaFilm .tf-scrub .tf-fill{position:absolute;inset:0;transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,#bdbdbd 0 34%,#D9123D 40%,#FF5B7E 52%,#E8B33E 64%,#7DB765 78%,#7FA8D8 92%,#9b8cff)}
+#tdnaFilm .tf-scrub .tf-knob{position:absolute;top:50%;width:1.3cqw;height:1.3cqw;min-width:11px;min-height:11px;border-radius:50%;background:#fff;translate:-50% -50%;left:0;
+  box-shadow:0 0 0 .3cqw rgba(217,18,61,.4);transition:scale .2s}
+#tdnaFilm .tf-scrub:hover .tf-knob{scale:1.25}
+#tdnaFilm .tf-scrub .tf-tick{position:absolute;top:50%;width:2px;height:.9cqw;min-height:7px;translate:-50% -50%;background:rgba(255,255,255,.4);border-radius:1px}
+/* start / poster */
+#tdnaFilm .tf-start{position:absolute;inset:0;z-index:9;display:grid;place-content:center;justify-items:center;gap:1.6cqw;text-align:center;cursor:pointer;
+  background:radial-gradient(70% 75% at 50% 50%,rgba(6,4,10,.62),rgba(4,3,8,.92));transition:opacity .7s ease,visibility .7s}
+#tdnaFilm .tf-start.tf-off{opacity:0;visibility:hidden}
+#tdnaFilm .tf-start .tf-kicker{font:700 1.3cqw 'DM Sans',sans-serif;letter-spacing:.5em;color:var(--sakura);opacity:.8;text-indent:.5em}
+#tdnaFilm .tf-start h1{margin:0;font:400 7.6cqw/1 'Archivo Black',sans-serif;letter-spacing:.01em;color:var(--ink);text-shadow:0 .5cqw 3cqw rgba(0,0,0,.6)}
+#tdnaFilm .tf-start h1 span{color:var(--torii)}
+#tdnaFilm .tf-start p{margin:0;font:500 1.6cqw 'Shippori Mincho',serif;color:#e8e2da;opacity:.85;letter-spacing:.06em}
+#tdnaFilm .tf-play{position:relative;margin-top:1cqw;width:8cqw;height:8cqw;min-width:56px;min-height:56px;border:0;border-radius:50%;cursor:pointer;display:grid;place-items:center;
+  background:var(--torii);color:#fff;box-shadow:0 1cqw 4cqw rgba(217,18,61,.5);transition:transform .3s cubic-bezier(.3,1.6,.5,1)}
+#tdnaFilm .tf-play svg{width:38%;height:38%;margin-left:8%;fill:currentColor}
+#tdnaFilm .tf-play::before,#tdnaFilm .tf-play::after{content:"";position:absolute;inset:0;border-radius:50%;border:.25cqw solid rgba(255,255,255,.7);animation:tfRing 2.4s ease-out infinite}
+#tdnaFilm .tf-play::after{animation-delay:1.2s}
+#tdnaFilm .tf-start:hover .tf-play{transform:scale(1.08)}
+#tdnaFilm .tf-play:focus-visible{outline:3px solid var(--sakura);outline-offset:4px}
+@keyframes tfRing{from{transform:scale(1);opacity:.8}to{transform:scale(1.9);opacity:0}}
+#tdnaFilm .tf-hint{font:500 1.1cqw 'DM Sans',sans-serif;color:#bbb;opacity:.7}
+#tdnaFilm .tf-loading{position:absolute;inset:0;z-index:10;display:grid;place-items:center;background:#050507;transition:opacity .5s}
+#tdnaFilm .tf-loading.tf-off{opacity:0;pointer-events:none}
+#tdnaFilm .tf-loading span{width:3cqw;height:3cqw;border-radius:50%;border:.3cqw solid rgba(255,255,255,.15);border-top-color:#D9123D;animation:tfSpin .9s linear infinite}
+@keyframes tfSpin{to{transform:rotate(360deg)}}
+/* centre flash icon when toggling */
+#tdnaFilm .tf-bump{position:absolute;left:50%;top:50%;z-index:8;width:7cqw;height:7cqw;margin:-3.5cqw;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center;opacity:0;pointer-events:none}
+#tdnaFilm .tf-bump svg{width:40%;height:40%;fill:#fff}
+#tdnaFilm .tf-bump.tf-go{animation:tfBump .6s ease-out}
+@keyframes tfBump{from{opacity:1;transform:scale(.8)}to{opacity:0;transform:scale(1.35)}}
+#tdnaFilm.tf-hide-cursor{cursor:none}
+#tdnaFilm.tf-pre .tf-ui,#tdnaFilm.tf-pre .tf-meter{opacity:0!important;pointer-events:none}
+@media (prefers-reduced-motion:reduce){#tdnaFilm .tf-play::before,#tdnaFilm .tf-play::after{animation:none}}
+</style></head><body>
+
+<div id="tdnaFilm" class="tf-pre" tabindex="0" role="region" aria-label="Trip DNA short film">
+  <div class="tf-layer tf-scenes"></div>
+  <div class="tf-title" aria-hidden="true"><div class="tf-aura"></div>
+    <div class="tf-seal">旅</div>
+    <h2>TRIP <em>DNA</em></h2><p class="tf-tag">Less worry. <b>More culture.</b></p><p class="tf-jp">心配は少なく、文化はもっと。</p>
+    <div class="tf-credit"></div></div>
+  <canvas class="tf-petals"></canvas>
+  <div class="tf-flash"></div>
+  <div class="tf-grain"></div>
+  <div class="tf-vig"></div>
+  <div class="tf-cap" aria-hidden="true"><i>色</i><span>As the worry fades, <b>Japan fills with colour.</b></span></div>
+  <div class="tf-subs" aria-live="polite"></div>
+  <div class="tf-meter"><span></span></div>
+  <div class="tf-bump"><svg viewBox="0 0 24 24"><path d=""/></svg></div>
+  <div class="tf-ui">
+    <button class="tf-btn tf-main" data-act="toggle" aria-label="Play"><svg viewBox="0 0 24 24"><path d=""/></svg></button>
+    <button class="tf-btn" data-act="restart" aria-label="Restart"><svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a6 6 0 1 1-6 6H4a8 8 0 1 0 8-8z"/></svg></button>
+    <div class="tf-scrub" role="slider" tabindex="0" aria-label="Seek" aria-valuemin="0"><div class="tf-track"><div class="tf-fill"></div></div><div class="tf-knob"></div></div>
+    <div class="tf-time">0:00 / 0:00</div>
+    <button class="tf-btn" data-act="mute" aria-label="Mute"><svg viewBox="0 0 24 24"><path d=""/></svg></button>
+    <button class="tf-btn" data-act="fs" aria-label="Fullscreen"><svg viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg></button>
+  </div>
+  <div class="tf-start" role="button" aria-label="Play the Trip DNA film">
+    <div class="tf-kicker">A SHORT FILM</div>
+    <h1>TRIP <span>DNA</span></h1>
+    <p>Her first day in Japan — from grey to full colour.</p>
+    <button class="tf-play" aria-label="Play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+    <div class="tf-hint">Sound on · Space to pause</div>
+  </div>
+  <div class="tf-loading"><span></span></div>
+</div>
+
+<script>
+(() => {
+"use strict";
+/*__DATA__*/
+const root = document.getElementById("tdnaFilm");
+const $ = s => root.querySelector(s);
+const TL = FILM.timeline, DUR = TL.duration;
+const ICON = {play:"M8 5v14l11-7z", pause:"M6 5h4v14H6zm8 0h4v14h-4z",
+  vol:"M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z",
+  mute:"M16.5 12A4.5 4.5 0 0 0 14 8v2.2l2.45 2.45c.03-.2.05-.42.05-.65zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12a9 9 0 0 0-7-8.77v2.06A7 7 0 0 1 19 12zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a9 9 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"};
+
+// ---------- math ----------
+const clamp = (x, a=0, b=1) => Math.min(b, Math.max(a, x));
+const ease = u => u * u * (3 - 2 * u);
+const easeOut = u => 1 - Math.pow(1 - u, 3);
+const lerp = (a, b, u) => a + (b - a) * u;
+const XF = 0.9;            // crossfade length between scenes (s)
+
+// ---------- build scenes ----------
+const scenesEl = $(".tf-scenes");
+const SC = TL.scenes.filter(s => s.panel > 0).map(s => {
+  const P = FILM.panels[s.panel - 1];
+  const el = document.createElement("div");
+  el.className = "tf-scene";
+  el.innerHTML = `<div class="tf-bd"><img class="tf-g" alt=""><img class="tf-c" alt=""></div>
+    <div class="tf-fr"><div class="tf-cam"><img class="tf-g" alt=""><img class="tf-c" alt=""><div class="tf-shine"></div></div></div>`;
+  el.querySelectorAll(".tf-bd img").forEach(i => i.src = P.bg);
+  el.querySelectorAll(".tf-cam img").forEach(i => i.src = P.src);
+  scenesEl.appendChild(el);
+  const o = (s.origin || "50% 50%").split(" ").map(parseFloat);
+  const glows = [];
+  (P.glows || []).forEach(g => {           // warm light sources that bloom once colour returns
+    const d = document.createElement("div");
+    d.className = "tf-glow";
+    d.style.cssText = `left:${g[0]}%;top:${g[1]}%;width:${g[2]}%;aspect-ratio:1;background:radial-gradient(${g[3]},transparent 68%)`;
+    el.querySelector(".tf-cam").appendChild(d);
+    glows.push({el: d, ph: Math.random() * 6, sp: .8 + Math.random() * 1.2, last: -1});
+  });
+  if (s.reveal) { const c = el.querySelector(".tf-cam .tf-c"); c.classList.add("tf-mask"); c.style.setProperty("--mx", s.reveal[0] + "%"); c.style.setProperty("--my", s.reveal[1] + "%"); }
+  return {s, P, el, fr: el.querySelector(".tf-fr"), cam: el.querySelector(".tf-cam"), bd: el.querySelector(".tf-bd"),
+    cBd: el.querySelector(".tf-bd .tf-c"), cIm: el.querySelector(".tf-cam .tf-c"), shine: el.querySelector(".tf-shine"),
+    ox: o[0], oy: o[1], glows, cache: {}};
+});
+const titleS = TL.scenes.find(s => s.id === "title");
+const titleEl = $(".tf-title");
+$(".tf-credit").textContent = TL.credit;
+
+// panel geometry: fit each panel inside the 16:9 stage (sizes in cqw, so it scales with the stage)
+function layout() {
+  SC.forEach(o => {
+    const a = o.P.w / o.P.h, maxW = 90, maxH = 47;   // stage is 100 x 56.25 cqw
+    let w = maxW, h = w / a; if (h > maxH) { h = maxH; w = h * a; }
+    o.fr.style.width = w + "cqw"; o.fr.style.height = h + "cqw";
+    o.fr.style.marginLeft = -w / 2 + "cqw"; o.fr.style.marginTop = (-h / 2 - 1.2) + "cqw";
+  });
+}
+layout();
+
+// subtitles (only for words that are not already printed in a speech bubble)
+const subsEl = $(".tf-subs");
+const SUBS = TL.lines.filter(l => !l.bubble && !l.tagline).map(l => {
+  const d = document.createElement("div");
+  const kind = l.fx === "pa" ? "pa" : (l.who === "app" ? "app" : "girl");
+  d.className = "tf-sub tf-" + kind;
+  d.innerHTML = (kind === "pa" ? "<small>📢 Station announcement</small>" : kind === "app" ? "<small>🎧 Trip DNA</small>" : "") + l.text;
+  subsEl.appendChild(d);
+  return {l, el: d, last: -1};
+});
+
+// ---------- grain tile (generated once, tiny) ----------
+(() => {
+  const c = document.createElement("canvas"); c.width = c.height = 160;
+  const x = c.getContext("2d"), im = x.createImageData(160, 160);
+  for (let i = 0; i < im.data.length; i += 4) { const v = Math.random() * 255 | 0; im.data[i] = im.data[i+1] = im.data[i+2] = v; im.data[i+3] = 38; }
+  x.putImageData(im, 0, 0);
+  $(".tf-grain").style.backgroundImage = `url(${c.toDataURL()})`;
+})();
+
+// ---------- colour level of the whole film (0 = grey world, 1 = full anime colour) ----------
+function colourAt(t) {
+  for (const s of TL.scenes) if (t < s.end) {
+    const u = ease(clamp((t - s.start) / (s.end - s.start)));
+    return lerp(s.colour[0], s.colour[1], u);
+  }
+  return 1;
+}
+
+// ---------- petals: deterministic in t so seeking & pausing stay exact ----------
+const cv = $("canvas.tf-petals"), cx = cv.getContext("2d");
+let cvW = 0, cvH = 0;
+function sizeCanvas() {
+  const r = root.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cvW = cv.width = Math.round(r.width * dpr); cvH = cv.height = Math.round(r.height * dpr);
+}
+const PET = Array.from({length: 70}, (_, i) => ({
+  x: (i * 0.6180339) % 1, born: (i * 0.371) % 1, sp: .055 + ((i * 7919) % 100) / 100 * .06,
+  sw: .02 + ((i * 104729) % 100) / 100 * .04, sz: .6 + ((i * 31) % 10) / 10 * .8, rot: i * 1.7,
+  hue: ["#ffb7c9", "#ffc7d6", "#ff9ebb", "#ffe0ea"][i % 4]}));
+let petalsWereOn = false;
+function drawPetals(t) {
+  const fest = TL.scenes.find(s => s.id === "festival"), route = TL.scenes.find(s => s.id === "route");
+  // density ramps: a few petals as colour arrives on the platform, a full flurry at the festival
+  const dens = t < route.start + 2 ? 0 : t < fest.start ? .18 * clamp((t - route.start - 2) / 3) : lerp(.18, 1, clamp((t - fest.start) / 2.5));
+  if (dens <= 0) { if (petalsWereOn) { cx.clearRect(0, 0, cvW, cvH); petalsWereOn = false; } return; }
+  petalsWereOn = true;
+  cx.clearRect(0, 0, cvW, cvH);
+  const n = Math.round(PET.length * dens), base = cvW / 100;
+  for (let i = 0; i < n; i++) {
+    const p = PET[i], life = 1 / p.sp;                 // seconds to cross the frame
+    const k = ((t / life + p.born) % 1);
+    const y = -0.08 + k * 1.16, x = p.x + Math.sin(t * 1.3 + p.rot) * p.sw + k * .12 - .06;
+    const s = base * 1.05 * p.sz, a = t * 2.2 + p.rot;
+    cx.save(); cx.translate(x * cvW, y * cvH); cx.rotate(a); cx.scale(1, .55 + .45 * Math.sin(t * 3 + p.rot));
+    cx.globalAlpha = .85; cx.fillStyle = p.hue;
+    cx.beginPath(); cx.moveTo(0, -s); cx.bezierCurveTo(s * .9, -s * .6, s * .7, s * .6, 0, s); cx.bezierCurveTo(-s * .7, s * .6, -s * .9, -s * .6, 0, -s); cx.fill();
+    cx.restore();
+  }
+}
+
+// ---------- write a style only when it actually changes (keeps style recalc near zero) ----------
+function set(o, key, el, prop, val) { if (o[key] !== val) { o[key] = val; el.style[prop] = val; } }
+
+// ---------- render one frame for time t ----------
+const grain = $(".tf-grain"), vig = $(".tf-vig"), flash = $(".tf-flash"), cap = $(".tf-cap"), meter = $(".tf-meter span");
+const G = {};
+let lastGrainStep = -1;
+function render(t) {
+  const col = colourAt(t);
+  SC.forEach((o, i) => {
+    const s = o.s, nx = TL.scenes[TL.scenes.indexOf(s) + 1];
+    const fadeIn = i === 0 ? 1 : ease(clamp((t - s.start) / XF));
+    const fadeOut = nx ? 1 - ease(clamp((t - s.end) / XF)) : 1;
+    const op = Math.min(fadeIn, fadeOut);
+    // stays "visible" (at opacity 0) for 2.5 s before its cut so the GPU rasterises it ahead of time — no hitch at the cut
+    const on = t >= s.start - 2.5 && t <= s.end + XF + .05;
+    set(o.cache, "v", o.el, "visibility", on ? "visible" : "hidden");
+    if (!on) return;
+    set(o.cache, "o", o.el, "opacity", op.toFixed(4));
+    if (op < 0.001) return;
+    // camera: slow Ken Burns move + a breath of handheld drift
+    const u = clamp((t - s.start + XF) / (s.end - s.start + 2 * XF));
+    let sc = 1, tx = 0, ty = 0;
+    if (s.cam === "zoom-in") sc = lerp(1.0, 1.13, ease(u));
+    else if (s.cam === "zoom-out") sc = lerp(1.16, 1.0, easeOut(u));
+    else if (s.cam === "pan-left") { sc = 1.1; tx = lerp(3, -3, ease(u)); }
+    else if (s.cam === "pan-right") { sc = 1.1; tx = lerp(-3, 3, ease(u)); }
+    const ox = (o.ox - 50) * (sc - 1) * -1, oy = (o.oy - 50) * (sc - 1) * -1;
+    let shx = 0, shy = 0;
+    if (s.id === "delay") {                       // shock shake on "Eh?!"
+      const k = t - (s.start + 1.0);
+      if (k > 0 && k < .55) { const d = (1 - k / .55) * 1.1; shx = Math.sin(k * 90) * d; shy = Math.cos(k * 77) * d * .6; }
+    }
+    set(o.cache, "cam", o.cam, "transform", `translate3d(${(tx + ox + shx).toFixed(3)}%,${(ty + oy + shy).toFixed(3)}%,0) scale(${sc.toFixed(4)})`);
+    const hx = Math.sin(t * .9 + i) * .18, hy = Math.cos(t * .7 + i * 2) * .12, hr = Math.sin(t * .5 + i) * .12;
+    const enter = 1 + (1 - fadeIn) * .035;      // panels settle in with a soft scale
+    set(o.cache, "fr", o.fr, "transform", `translate3d(${hx.toFixed(3)}cqw,${hy.toFixed(3)}cqw,0) rotate(${hr.toFixed(3)}deg) scale(${enter.toFixed(4)})`);
+    set(o.cache, "bd", o.bd, "transform", `scale(${(1.04 + u * .05).toFixed(4)})`);
+    // colour: scene's own range, eased; this is THE effect
+    const c = lerp(s.colour[0], s.colour[1], ease(clamp((t - s.start) / (s.end - s.start))));
+    const cc = clamp(c * 1.04);
+    set(o.cache, "cO", o.cIm, "opacity", cc.toFixed(4));
+    set(o.cache, "bO", o.cBd, "opacity", cc.toFixed(4));
+    if (s.reveal) {                               // colour blooms outward from the phone screen
+      const r = easeOut(clamp((t - s.start - .25) / 4.2)) * 120;
+      const rs = r.toFixed(2);
+      if (o.cache.mr !== rs) { o.cache.mr = rs; o.cIm.style.setProperty("--mr", rs); }
+      set(o.cache, "cO", o.cIm, "opacity", clamp(.35 + c * 2.2).toFixed(4));
+    }
+    // sheen sweeps across once colour exists
+    if (c > .05) {
+      const k = ((t - s.start) % 4.2) / 4.2;
+      set(o.cache, "sh", o.shine, "transform", `translate3d(${lerp(-110, 110, k).toFixed(2)}%,0,0)`);
+      set(o.cache, "shO", o.shine, "opacity", (clamp(c) * .55).toFixed(3));
+    } else set(o.cache, "shO", o.shine, "opacity", "0");
+    o.glows.forEach(g => {
+      const v = clamp(c * 1.3) * (.55 + .45 * Math.sin(t * g.sp * 2 + g.ph));
+      const q = v.toFixed(3); if (g.last !== q) { g.last = q; g.el.style.opacity = q; g.el.style.transform = `scale(${(.85 + v * .3).toFixed(3)})`; }
+    });
+  });
+  // title card
+  const tk = t - titleS.start, tOp = ease(clamp(tk / 1.2));
+  set(G, "tv", titleEl, "visibility", tOp > 0 ? "visible" : "hidden");
+  if (tOp > 0) {
+    set(G, "to", titleEl, "opacity", tOp.toFixed(4));
+    const h2 = titleEl.querySelector("h2"), tag = titleEl.querySelector(".tf-tag"), jp = titleEl.querySelector(".tf-jp"), seal = titleEl.querySelector(".tf-seal"), aura = titleEl.querySelector(".tf-aura");
+    const a = easeOut(clamp((tk - .3) / 1.4)), b = easeOut(clamp((tk - 1.1) / 1.2)), c2 = easeOut(clamp((tk - 1.8) / 1.2)), d = easeOut(clamp((tk - .1) / .9));
+    set(G, "h2", h2, "transform", `translateY(${((1 - a) * 2).toFixed(3)}cqw) scale(${(.9 + a * .1).toFixed(4)})`); set(G, "h2o", h2, "opacity", a.toFixed(3));
+    set(G, "tg", tag, "transform", `translateY(${((1 - b) * 1.2).toFixed(3)}cqw)`); set(G, "tgo", tag, "opacity", b.toFixed(3));
+    set(G, "jpo", jp, "opacity", (c2 * .85).toFixed(3));
+    set(G, "se", seal, "transform", `rotate(${(-4 - (1 - d) * 20).toFixed(2)}deg) scale(${(.6 + d * .4).toFixed(3)})`); set(G, "seo", seal, "opacity", d.toFixed(3));
+    set(G, "au", aura, "transform", `rotate(${(t * 12).toFixed(2)}deg)`);
+  }
+  // flash into the festival
+  const fest = TL.scenes.find(s => s.id === "festival");
+  const fk = t - (fest.start - .15);
+  set(G, "fl", flash, "opacity", (fk > 0 && fk < 1.3 ? Math.sin(Math.PI * clamp(fk / 1.3)) ** 2 * .55 : 0).toFixed(3));
+  // grain is strongest in the grey world; steps at 12 fps like real film
+  const gs = Math.floor(t * 12);
+  if (gs !== lastGrainStep) { lastGrainStep = gs; const r1 = (gs * 7919 % 97) / 97, r2 = (gs * 104729 % 89) / 89; grain.style.transform = `translate3d(${(r1 * 20 - 10).toFixed(2)}%,${(r2 * 20 - 10).toFixed(2)}%,0)`; }
+  set(G, "gr", grain, "opacity", lerp(.2, .05, col).toFixed(3));
+  set(G, "vg", vig, "opacity", lerp(1, .45, col).toFixed(3));
+  // the little caption that calls out the colour change
+  const app = TL.scenes.find(s => s.id === "app");
+  const ck = t - (app.start + 1.2), cd = 5.2;
+  const cOp = ck < 0 || ck > cd ? 0 : Math.min(ease(clamp(ck / .7)), ease(clamp((cd - ck) / .8)));
+  set(G, "cp", cap, "opacity", cOp.toFixed(3));
+  set(G, "cpt", cap, "transform", `translate(-50%,${((1 - cOp) * -.6).toFixed(3)}cqw)`);
+  set(G, "mt", meter, "transform", `scaleX(${col.toFixed(4)})`);
+  // subtitles
+  SUBS.forEach(sb => {
+    const a = t - (sb.l.start - .15), b = (sb.l.end + .45) - t;
+    const v = a < 0 || b < 0 ? 0 : Math.min(ease(clamp(a / .3)), ease(clamp(b / .35)));
+    const q = v.toFixed(3); if (sb.last !== q) { sb.last = q; sb.el.style.opacity = q; sb.el.style.transform = `translateY(${((1 - v) * .6).toFixed(3)}cqw)`; }
+  });
+  drawPetals(t);
+}
+
+// ---------- clock: the audio track is the master; a smoothed estimate avoids coarse currentTime steps ----------
+const audio = new Audio(); audio.preload = "auto"; audio.src = FILM.audio;
+let playing = false, ended = false, base = 0, baseAt = 0, raf = 0, useAudio = true, lastT = 0;
+function now() {
+  if (!playing) return base;
+  const est = base + (performance.now() - baseAt) / 1000;
+  if (!useAudio) return est;
+  const a = audio.currentTime, drift = a - est;
+  if (Math.abs(drift) > .15) { base = a; baseAt = performance.now(); return a; }
+  base += drift * .05;                            // ease out tiny drift without visible jumps
+  return est + drift * .05;
+}
+function frame() {
+  const t = Math.min(now(), DUR);
+  lastT = t; render(t); ui(t);
+  if (t >= DUR - .02) { finish(); return; }
+  raf = requestAnimationFrame(frame);
+}
+function play() {
+  touched = true;
+  if (playing) return;
+  if (ended || lastT >= DUR - .05) seek(0);
+  ended = false; playing = true; base = lastT; baseAt = performance.now();
+  root.classList.remove("tf-paused", "tf-pre"); $(".tf-start").classList.add("tf-off");
+  if (useAudio) { audio.currentTime = lastT; const p = audio.play(); if (p) p.catch(() => { useAudio = false; }); }
+  cancelAnimationFrame(raf); raf = requestAnimationFrame(frame); setIcons(); poke();
+}
+function pause() {
+  if (!playing) return;
+  base = now(); lastT = base; playing = false; audio.pause();
+  cancelAnimationFrame(raf); root.classList.add("tf-paused"); setIcons();
+}
+function finish() { playing = false; ended = true; audio.pause(); lastT = DUR; render(DUR); ui(DUR); root.classList.add("tf-paused"); setIcons(); }
+function seek(t) {
+  touched = true;
+  t = clamp(t, 0, DUR); lastT = base = t; baseAt = performance.now(); ended = false;
+  try { audio.currentTime = t; } catch (e) {}
+  render(t); ui(t);
+}
+function toggle() { playing ? pause() : play(); bump(); }
+
+// ---------- UI ----------
+const btnMain = $('[data-act="toggle"]'), btnMute = $('[data-act="mute"]'), scrub = $(".tf-scrub"), fill = $(".tf-fill"), knob = $(".tf-knob"), timeEl = $(".tf-time");
+const fmt = s => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
+function setIcons() {
+  btnMain.querySelector("path").setAttribute("d", playing ? ICON.pause : ICON.play);
+  btnMain.setAttribute("aria-label", playing ? "Pause" : "Play");
+  btnMute.querySelector("path").setAttribute("d", audio.muted ? ICON.mute : ICON.vol);
+  btnMute.setAttribute("aria-label", audio.muted ? "Unmute" : "Mute");
+}
+function bump() { const b = $(".tf-bump"); b.querySelector("path").setAttribute("d", playing ? ICON.play : ICON.pause); b.classList.remove("tf-go"); void b.offsetWidth; b.classList.add("tf-go"); }
+let lastUiSec = -1;
+function ui(t) {
+  const p = t / DUR;
+  fill.style.transform = `scaleX(${p.toFixed(4)})`; knob.style.left = (p * 100).toFixed(3) + "%";
+  const s = Math.floor(t); if (s !== lastUiSec) { lastUiSec = s; timeEl.textContent = `${fmt(t)} / ${fmt(DUR)}`; scrub.setAttribute("aria-valuenow", s); }
+}
+TL.scenes.slice(1).forEach(s => { const k = document.createElement("div"); k.className = "tf-tick"; k.style.left = (s.start / DUR * 100) + "%"; scrub.appendChild(k); });
+scrub.setAttribute("aria-valuemax", Math.floor(DUR));
+let idle = 0;
+function poke() { root.classList.add("tf-show-ui"); root.classList.remove("tf-hide-cursor"); clearTimeout(idle); idle = setTimeout(() => { if (playing) { root.classList.remove("tf-show-ui"); root.classList.add("tf-hide-cursor"); } }, 2200); }
+root.addEventListener("pointermove", poke);
+root.addEventListener("click", e => {
+  const a = e.target.closest("[data-act]");
+  if (a) { e.stopPropagation(); const k = a.dataset.act;
+    if (k === "toggle") toggle();
+    else if (k === "restart") { seek(0); play(); }
+    else if (k === "mute") { audio.muted = !audio.muted; setIcons(); }
+    else if (k === "fs") { document.fullscreenElement ? document.exitFullscreen() : (root.requestFullscreen || root.webkitRequestFullscreen).call(root); }
+    poke(); return; }
+  if (e.target.closest(".tf-start")) { root.focus({preventScroll: true}); play(); return; }
+  if (e.target.closest(".tf-ui")) return;
+  toggle(); poke();
+});
+let dragging = false, wasPlaying = false;
+function scrubTo(e) { const r = scrub.getBoundingClientRect(); seek(clamp((e.clientX - r.left) / r.width) * DUR); }
+scrub.addEventListener("pointerdown", e => { e.stopPropagation(); dragging = true; wasPlaying = playing; if (playing) pause(); scrub.setPointerCapture(e.pointerId); scrubTo(e); });
+scrub.addEventListener("pointermove", e => { if (dragging) scrubTo(e); });
+scrub.addEventListener("pointerup", e => { if (!dragging) return; dragging = false; if (wasPlaying) play(); });
+scrub.addEventListener("click", e => e.stopPropagation());
+root.addEventListener("keydown", e => {               // keys only while the film has focus, so the deck keeps its arrows
+  const k = e.key;
+  if (k === " " || k === "k" || k === "K") { e.preventDefault(); if (!$(".tf-start").classList.contains("tf-off")) play(); else toggle(); poke(); }
+  else if (k === "ArrowRight" && e.target === scrub) { e.preventDefault(); seek(lastT + 5); }
+  else if (k === "ArrowLeft" && e.target === scrub) { e.preventDefault(); seek(lastT - 5); }
+  else if (k === "m" || k === "M") { audio.muted = !audio.muted; setIcons(); poke(); }
+  else if (k === "f" || k === "F") { $('[data-act="fs"]').click(); }
+});
+new ResizeObserver(() => { sizeCanvas(); render(lastT); }).observe(root);
+// pause politely when the film scrolls/slides out of view (e.g. the deck moves to the next slide)
+new IntersectionObserver(es => es.forEach(en => { if (!en.isIntersecting && playing) pause(); }), {threshold: .25}).observe(root);
+document.addEventListener("visibilitychange", () => { if (document.hidden && playing) pause(); });
+
+// ---------- preload & decode every image before the first frame (no first-show jank) ----------
+const imgs = [...root.querySelectorAll("img")];
+let touched = false;                              // set once anything seeks/plays, so init never overwrites it
+const ready = Promise.all(imgs.map(i => i.decode ? i.decode().catch(() => {}) : Promise.resolve())).then(() => {
+  sizeCanvas(); setIcons(); $(".tf-loading").classList.add("tf-off"); root.classList.add("tf-paused");
+  if (!touched) { render(0.6); ui(0); }
+});
+
+// public API for the pitch deck: TripDNAFilm.play(), .pause(), .toggle(), .seek(sec), .renderAt(sec)
+window.TripDNAFilm = {play, pause, toggle, seek, duration: DUR,
+  ready, async renderAt(t) { touched = true; await ready; pause(); root.classList.remove("tf-pre"); $(".tf-start").style.transition = "none"; $(".tf-start").classList.add("tf-off"); sizeCanvas(); lastT = t; render(t); ui(t); }};
+})();
+</script>
+</body></html>

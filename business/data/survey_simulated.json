@@ -1,0 +1,576 @@
+{
+ "label": "Simulated responses",
+ "n": 407,
+ "note": "Simulated data (n=407), generated from the response distributions in form-config.json to model our expected audience (mostly young Indian travellers). It is NOT a field survey; use it to rehearse the analysis and show the method. Counts transcribed from the Google Forms summary charts in Form_responses/.",
+ "questions": {
+  "Q1": {
+   "title": "Been to Japan / planning?",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Visited Japan",
+     "c": 37,
+     "v": 9.1
+    },
+    {
+     "k": "Planning, next 12 months",
+     "c": 4,
+     "v": 1.0
+    },
+    {
+     "k": "Someday",
+     "c": 216,
+     "v": 53.1
+    },
+    {
+     "k": "Travel abroad, not Japan",
+     "c": 73,
+     "v": 17.9
+    },
+    {
+     "k": "Don't travel abroad",
+     "c": 77,
+     "v": 18.9
+    }
+   ]
+  },
+  "Q2": {
+   "title": "Home country",
+   "n": 407,
+   "rows": [
+    {
+     "k": "India",
+     "c": 402,
+     "v": 98.8
+    },
+    {
+     "k": "Southeast Asia",
+     "c": 5,
+     "v": 1.2
+    }
+   ]
+  },
+  "Q3": {
+   "title": "Age",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Under 18",
+     "c": 69,
+     "v": 17.0
+    },
+    {
+     "k": "18–24",
+     "c": 183,
+     "v": 45.0
+    },
+    {
+     "k": "25–34",
+     "c": 90,
+     "v": 22.1
+    },
+    {
+     "k": "35–44",
+     "c": 37,
+     "v": 9.1
+    },
+    {
+     "k": "45–54",
+     "c": 12,
+     "v": 2.9
+    },
+    {
+     "k": "55+",
+     "c": 16,
+     "v": 3.9
+    }
+   ]
+  },
+  "Q4": {
+   "title": "Main reason for the trip",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Holiday",
+     "c": 297,
+     "v": 73.0
+    },
+    {
+     "k": "Study / exchange",
+     "c": 37,
+     "v": 9.1
+    },
+    {
+     "k": "Business",
+     "c": 33,
+     "v": 8.1
+    },
+    {
+     "k": "Friends / family",
+     "c": 12,
+     "v": 2.9
+    },
+    {
+     "k": "Events",
+     "c": 8,
+     "v": 2.0
+    },
+    {
+     "k": "Other",
+     "c": 20,
+     "v": 4.9
+    }
+   ]
+  },
+  "Q5": {
+   "title": "Top worries (multi-select)",
+   "n": 406,
+   "rows": [
+    {
+     "k": "Planning / too many apps",
+     "c": 305,
+     "v": 75.1
+    },
+    {
+     "k": "Language",
+     "c": 297,
+     "v": 73.2
+    },
+    {
+     "k": "Cost",
+     "c": 252,
+     "v": 62.1
+    },
+    {
+     "k": "Etiquette",
+     "c": 240,
+     "v": 59.1
+    },
+    {
+     "k": "Getting around",
+     "c": 228,
+     "v": 56.2
+    },
+    {
+     "k": "Food / dietary",
+     "c": 199,
+     "v": 49.0
+    },
+    {
+     "k": "Plans going wrong",
+     "c": 175,
+     "v": 43.1
+    },
+    {
+     "k": "Safety & emergencies",
+     "c": 118,
+     "v": 29.1
+    },
+    {
+     "k": "Other",
+     "c": 98,
+     "v": 24.1
+    },
+    {
+     "k": "Only touristy places",
+     "c": 77,
+     "v": 19.0
+    }
+   ]
+  },
+  "Q6": {
+   "title": "How often plans break",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Never",
+     "c": 8,
+     "v": 2.0
+    },
+    {
+     "k": "Once per trip",
+     "c": 37,
+     "v": 9.1
+    },
+    {
+     "k": "A few times per trip",
+     "c": 114,
+     "v": 28.0
+    },
+    {
+     "k": "Almost every day",
+     "c": 171,
+     "v": 42.0
+    },
+    {
+     "k": "Don't usually plan",
+     "c": 77,
+     "v": 18.9
+    }
+   ]
+  },
+  "Q7": {
+   "title": "Apps used per trip",
+   "n": 407,
+   "rows": [
+    {
+     "k": "1–2",
+     "c": 289,
+     "v": 71.0
+    },
+    {
+     "k": "3–4",
+     "c": 90,
+     "v": 22.1
+    },
+    {
+     "k": "5–6",
+     "c": 20,
+     "v": 4.9
+    },
+    {
+     "k": "7 or more",
+     "c": 0,
+     "v": 0.0
+    },
+    {
+     "k": "Not sure",
+     "c": 8,
+     "v": 2.0
+    }
+   ]
+  },
+  "Q8": {
+   "title": "Interest in local culture with a host (1–5)",
+   "n": 407,
+   "rows": [
+    {
+     "k": "1 Not interested",
+     "c": 8,
+     "v": 2.0
+    },
+    {
+     "k": "2",
+     "c": 0,
+     "v": 0.0
+    },
+    {
+     "k": "3",
+     "c": 4,
+     "v": 1.0
+    },
+    {
+     "k": "4",
+     "c": 57,
+     "v": 14.0
+    },
+    {
+     "k": "5 Very interested",
+     "c": 338,
+     "v": 83.0
+    }
+   ]
+  },
+  "Q9": {
+   "title": "Would share own culture",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Yes, I'd love that",
+     "c": 252,
+     "v": 61.9
+    },
+    {
+     "k": "Maybe, if easy",
+     "c": 130,
+     "v": 31.9
+    },
+    {
+     "k": "Probably not",
+     "c": 20,
+     "v": 4.9
+    },
+    {
+     "k": "No",
+     "c": 5,
+     "v": 1.2
+    }
+   ]
+  },
+  "Q10": {
+   "title": "Most helpful features (multi-select)",
+   "n": 407,
+   "rows": [
+    {
+     "k": "All in one app",
+     "c": 407,
+     "v": 100.0
+    },
+    {
+     "k": "Self-fixing plan",
+     "c": 387,
+     "v": 95.1
+    },
+    {
+     "k": "Hidden local spots",
+     "c": 346,
+     "v": 85.0
+    },
+    {
+     "k": "Student / disability discounts",
+     "c": 346,
+     "v": 85.0
+    },
+    {
+     "k": "Verified hosts & guides",
+     "c": 309,
+     "v": 75.9
+    },
+    {
+     "k": "One-tap SOS",
+     "c": 309,
+     "v": 75.9
+    },
+    {
+     "k": "Meet locals & travellers",
+     "c": 281,
+     "v": 69.0
+    },
+    {
+     "k": "Etiquette + stories",
+     "c": 265,
+     "v": 65.1
+    }
+   ]
+  },
+  "Q11": {
+   "title": "Preferred app style",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Vibrant",
+     "c": 269,
+     "v": 66.1
+    },
+    {
+     "k": "Simple",
+     "c": 118,
+     "v": 29.0
+    },
+    {
+     "k": "Colour-blind safe",
+     "c": 20,
+     "v": 4.9
+    },
+    {
+     "k": "No preference",
+     "c": 0,
+     "v": 0.0
+    }
+   ]
+  },
+  "Q12": {
+   "title": "Would pay for a Trip Pass",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Free only",
+     "c": 134,
+     "v": 32.9
+    },
+    {
+     "k": "≤ ¥500 / 7d",
+     "c": 61,
+     "v": 15.0
+    },
+    {
+     "k": "¥500–1,000 / 7d",
+     "c": 85,
+     "v": 20.9
+    },
+    {
+     "k": "¥1,000–1,500 / 14d",
+     "c": 90,
+     "v": 22.1
+    },
+    {
+     "k": "> ¥1,500",
+     "c": 37,
+     "v": 9.1
+    }
+   ]
+  },
+  "E1": {
+   "title": "Trip length",
+   "n": 407,
+   "rows": [
+    {
+     "k": "1–4 days",
+     "c": 85,
+     "v": 20.9
+    },
+    {
+     "k": "5–7 days",
+     "c": 228,
+     "v": 56.0
+    },
+    {
+     "k": "8–14 days",
+     "c": 49,
+     "v": 12.0
+    },
+    {
+     "k": "15+ days",
+     "c": 45,
+     "v": 11.1
+    }
+   ]
+  },
+  "E2": {
+   "title": "Budget per person (excl. flights)",
+   "n": 407,
+   "rows": [
+    {
+     "k": "< ₹50k (< ¥90k)",
+     "c": 85,
+     "v": 20.9
+    },
+    {
+     "k": "₹50k–1L (¥90–180k)",
+     "c": 167,
+     "v": 41.0
+    },
+    {
+     "k": "₹1–2L (¥180–360k)",
+     "c": 106,
+     "v": 26.0
+    },
+    {
+     "k": "> ₹2L (> ¥360k)",
+     "c": 49,
+     "v": 12.0
+    }
+   ]
+  },
+  "E4": {
+   "title": "Apps used or planned (multi-select)",
+   "n": 407,
+   "rows": [
+    {
+     "k": "Google Translate",
+     "c": 407,
+     "v": 100.0
+    },
+    {
+     "k": "Google Maps",
+     "c": 399,
+     "v": 98.0
+    },
+    {
+     "k": "JNTO app",
+     "c": 346,
+     "v": 85.0
+    },
+    {
+     "k": "Airbnb",
+     "c": 330,
+     "v": 81.1
+    },
+    {
+     "k": "Booking.com",
+     "c": 265,
+     "v": 65.1
+    },
+    {
+     "k": "Tripadvisor",
+     "c": 142,
+     "v": 34.9
+    },
+    {
+     "k": "NAVITIME",
+     "c": 94,
+     "v": 23.1
+    },
+    {
+     "k": "Klook",
+     "c": 49,
+     "v": 12.0
+    },
+    {
+     "k": "Wanderlog",
+     "c": 37,
+     "v": 9.1
+    }
+   ]
+  },
+  "E7": {
+   "title": "Book experiences in app or on the spot",
+   "n": 407,
+   "rows": [
+    {
+     "k": "In the app, in advance",
+     "c": 191,
+     "v": 46.9
+    },
+    {
+     "k": "On the spot",
+     "c": 122,
+     "v": 30.0
+    },
+    {
+     "k": "Depends on the activity",
+     "c": 94,
+     "v": 23.1
+    }
+   ]
+  }
+ },
+ "E3_grid_approx": {
+  "note": "read from the chart image, ±3",
+  "scale": [
+   "1",
+   "2",
+   "3",
+   "4",
+   "5"
+  ],
+  "Navigation & trains": [
+   8,
+   16,
+   20,
+   118,
+   238
+  ],
+  "Planning & research": [
+   117,
+   27,
+   52,
+   117,
+   89
+  ],
+  "Etiquette & customs": [
+   185,
+   25,
+   19,
+   128,
+   45
+  ],
+  "Safety & emergencies": [
+   84,
+   45,
+   141,
+   93,
+   40
+  ]
+ },
+ "headlines": {
+  "top_worry": "Planning / too many apps 75.1%, language 73.2%",
+  "culture_top2": 97.1,
+  "share_own_culture": 93.9,
+  "would_pay": 67.1,
+  "plans_break_few_plus": 70.0,
+  "book_in_app": 46.9,
+  "vibrant": 66.1,
+  "trip_5_7_days": 56.0
+ }
+}

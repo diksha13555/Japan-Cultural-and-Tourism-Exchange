@@ -1,0 +1,14 @@
+# Python
+__pycache__/
+*.pyc
+
+# Big media stays local (the HTML film is the same film)
+*.mp4
+*.wav
+
+# Tooling / OS
+.vercel/
+node_modules/
+Thumbs.db
+desktop.ini
+.DS_Store
